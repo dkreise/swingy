@@ -1,6 +1,7 @@
 package ro.academyplus.swingy;
 
 import ro.academyplus.swingy.view.*;
+import ro.academyplus.swingy.controller.GameController;
 
 public class Main {
     // private final static GameView gameView;
@@ -27,9 +28,7 @@ public class Main {
                 return;
         }
 
-        if (gameView != null) {
-            gameView.startGame();
-            gameView.showMessage("Welcome to Swingy!");
-        }
+        GameController gameController = new GameController(gameView);
+        gameController.startGame();
     }
 }
