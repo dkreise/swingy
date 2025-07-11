@@ -4,7 +4,7 @@ import ro.academyplus.swingy.model.artifact.*;
 
 public class Hero {
     private String name;
-    private String heroClass;
+    private HeroClass heroClass;
     private int level;
     private int experience;
     private int attack;
@@ -14,12 +14,20 @@ public class Hero {
     private Armor armor;
     private Helm helm;
 
-    public Hero(String name, String heroClass) {
+    public Hero(String name, HeroClass heroClass) {
         this.name = name;
         this.heroClass = heroClass;
         this.level = 0;
         this.experience = 0;
+        this.attack = heroClass.getBaseAttack();
+        this.defense = heroClass.getBaseDefense();
+        this.hitPoints = heroClass.getBaseHitPoints();
+        this.weapon = null;
+        this.armor = null;
+        this.helm = null;
     }
+
+    // TODO: constructor for loading from file - existing heros
 
     public int getTotalAttack() {
         int weaponBonus = (weapon != null) ? weapon.getBonus() : 0;
@@ -36,7 +44,7 @@ public class Hero {
         return hitPoints + helmBonus;
     }
 
-    public String getHeroClass() {
+    public HeroClass getHeroClass() {
         return heroClass;
     }
 
