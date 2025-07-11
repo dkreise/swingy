@@ -1,11 +1,14 @@
 package ro.academyplus.swingy.view;
 
 import ro.academyplus.swingy.controller.GameController;
+import ro.academyplus.swingy.model.hero.*;
+import ro.academyplus.swingy.model.artifact.*;
 
 import java.util.Scanner;
 
 public class ConsoleView implements GameView {
     private GameController controller;
+    private final Scanner scanner = new Scanner(System.in);
 
     @Override
     public void showWelcomeMessage() {
@@ -19,7 +22,6 @@ public class ConsoleView implements GameView {
 
     @Override
     public void showMainMenu() {
-        Scanner scanner = new Scanner(System.in);
         int choice = 0;
 
         while (choice != 1 && choice != 2) {
@@ -32,12 +34,8 @@ public class ConsoleView implements GameView {
             if (scanner.hasNextInt()) {
                 choice = scanner.nextInt();
                 if (choice == 1) {
-                    // close the scanner to avoid resource leak
-                    scanner.close();
                     controller.onHeroSelect();
-                    
                 } else if (choice == 2) {
-                    scanner.close();
                     controller.onHeroCreate();
                 } else if (choice == 3) {
                     scanner.close();
@@ -54,6 +52,62 @@ public class ConsoleView implements GameView {
     }
 
     @Override
+    public void showHeroSelectionMenu() {
+        System.out.println("HERO CLASSES:");
+        HeroClass.printHeroClasses();
+        int choice = 0;
+
+        while (choice < 1 || choice > HeroClass.values().length) {
+            System.out.print("Select a hero class by number: ");
+            if (scanner.hasNextInt()) {
+                choice = scanner.nextInt();
+                if (choice < 1 || choice > HeroClass.values().length) {
+                    System.out.println("!!!\nInvalid choice. Please try again.\n!!!");
+                }
+            } else {
+                System.out.println("!!!\nInvalid input. Please enter a number.\n!!!");
+                scanner.next(); // Clear invalid input
+            }
+        }
+
+        HeroClass selectedClass = HeroClass.values()[choice - 1];
+        System.out.print("Enter hero name: ");
+        String heroName = scanner.next();
+        Hero hero = new Hero(heroName, selectedClass);
+        controller.setHero(hero);
+    }
+
+    @Override
+    public void showHeroStats(Hero hero) {
+        System.out.println("HERO STATS:");
+        System.out.printf("Name: %s%n", hero.getName());
+        System.out.printf("Class: %s%n", hero.getHeroClass().getDisplayName());
+        System.out.printf("Level: %d%n", hero.getLevel());
+        System.out.printf("Experience: %d%n", hero.getExperience());
+        System.out.printf("Attack: %d%n", hero.getTotalAttack());
+        System.out.printf("Defense: %d%n", hero.getTotalDefense());
+        System.out.printf("Hit Points: %d%n", hero.getTotalHitPoints());
+
+        if (hero.getWeapon() != null) {
+            System.out.printf("Weapon: %s (Bonus: %d)%n", hero.getWeapon().getName(), hero.getWeapon().getBonus());
+        } else {
+            System.out.println("Weapon: None");
+        }
+
+        if (hero.getArmor() != null) {
+            System.out.printf("Armor: %s (Bonus: %d)%n", hero.getArmor().getName(), hero.getArmor().getBonus());
+        } else {
+            System.out.println("Armor: None");
+        }
+
+        if (hero.getHelm() != null) {
+            System.out.printf("Helm: %s (Bonus: %d)%n", hero.getHelm().getName(), hero.getHelm().getBonus());
+        } else {
+            System.out.println("Helm: None");
+        }
+    }
+
+    @Override
     public void startGame() {
         showWelcomeMessage();
         showMainMenu();
@@ -66,5 +120,11 @@ public class ConsoleView implements GameView {
     
     public void setController(GameController controller) {
         this.controller = controller;
+    }
+
+    public void closeScanner() {
+        if (scanner != null) {
+            scanner.close();
+        }
     }
 }

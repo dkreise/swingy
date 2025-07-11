@@ -35,4 +35,25 @@ public enum HeroClass {
     public int getBaseHitPoints() {
         return baseHitPoints;
     }
+
+    public static HeroClass fromDisplayName(String displayName) {
+        for (HeroClass heroClass : values()) {
+            if (heroClass.getDisplayName().equalsIgnoreCase(displayName)) {
+                return heroClass;
+            }
+        }
+        throw new IllegalArgumentException("Unknown hero class: " + displayName);
+    }
+
+    public static void printHeroClasses() {
+        int idx = 1;
+        for (HeroClass heroClass : values()) {
+            System.out.printf("%d. %s: Attack=%d, Defense=%d, HitPoints=%d%n",
+                    idx++,
+                    heroClass.getDisplayName(),
+                    heroClass.getBaseAttack(),
+                    heroClass.getBaseDefense(),
+                    heroClass.getBaseHitPoints());
+        }
+    }
 }

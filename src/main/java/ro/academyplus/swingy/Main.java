@@ -30,5 +30,10 @@ public class Main {
 
         GameController gameController = new GameController(gameView);
         gameController.startGame();
+
+        // close the scanner if using ConsoleView
+        if (gameView instanceof ConsoleView) {
+            ((ConsoleView) gameView).closeScanner();
+        }
     }
 }

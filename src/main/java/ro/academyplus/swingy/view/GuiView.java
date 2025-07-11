@@ -2,6 +2,7 @@ package ro.academyplus.swingy.view;
 
 import ro.academyplus.swingy.controller.GameController;
 import ro.academyplus.swingy.utils.AppStyle;
+import ro.academyplus.swingy.model.hero.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -83,6 +84,14 @@ public class GuiView implements GameView {
     @Override
     public void startGame() {
         System.out.println("Starting game in GUI mode...");
+    }
+
+    @Override
+    public void showHeroSelectionMenu() {
+    }
+
+    @Override
+    public void showHeroStats(Hero hero) {
     }
 
     @Override

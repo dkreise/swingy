@@ -59,4 +59,35 @@ public class Hero {
     public int getExperience() {
         return experience;
     }
+
+    public Weapon getWeapon() {
+        return weapon;
+    }
+
+    public Armor getArmor() {
+        return armor;
+    }
+
+    public Helm getHelm() {
+        return helm;
+    }
+
+    // public void showHeroStats() {
+    //     System.out.println("Hero Name: " + name);
+    //     System.out.println("Hero Class: " + heroClass.getDisplayName());
+    //     System.out.println("Level: " + level);
+    //     System.out.println("Experience: " + experience);
+    //     System.out.println("Attack: " + getTotalAttack());
+    //     System.out.println("Defense: " + getTotalDefense());
+    //     System.out.println("Hit Points: " + getTotalHitPoints());
+    //     if (weapon != null) {
+    //         System.out.println("Weapon: " + weapon.getName() + " (Bonus: " + weapon.getBonus() + ")");
+    //     }
+    //     if (armor != null) {
+    //         System.out.println("Armor: " + armor.getName() + " (Bonus: " + armor.getBonus() + ")");
+    //     }
+    //     if (helm != null) {
+    //         System.out.println("Helm: " + helm.getName() + " (Bonus: " + helm.getBonus() + ")");
+    //     }
+    // }
 }
