@@ -6,7 +6,6 @@ import ro.academyplus.swingy.model.map.*;
 
 import javax.swing.*;
 import java.util.Map;
-import java.util.HashMap;
 
 public class GameController {
     private final GameView gameView;

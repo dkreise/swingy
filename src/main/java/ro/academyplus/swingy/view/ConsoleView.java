@@ -25,30 +25,28 @@ public class ConsoleView implements GameView {
     public void showMainMenu() {
         int choice = 0;
 
-        while (choice != 1 && choice != 2) {
+        while (choice < 1 || choice > 3) {
             System.out.println("MAIN MENU:");
             System.out.println("1. Select Existing Hero");
             System.out.println("2. Create New Hero");
             System.out.println("3. Exit");
             System.out.print("Enter your choice: ");
 
-            if (scanner.hasNextInt()) {
-                choice = scanner.nextInt();
-                if (choice == 1) {
-                    controller.onHeroSelect();
-                } else if (choice == 2) {
-                    controller.onHeroCreate();
-                } else if (choice == 3) {
-                    scanner.close();
-                    System.out.println("Exiting the game. Goodbye!");
-                    System.exit(0);
-                } else {
-                    System.out.println("!!!\nInvalid choice. Please try again.\n!!!");
-                }
-            } else {
-                System.out.println("!!!\nInvalid input. Please enter a number.\n!!!");
-                scanner.next(); // Clear invalid input
-            }
+            choice = checkNextInt(1, 3);
+        }
+
+        switch (choice) {
+            case 1:
+                controller.onHeroSelect();
+                break;
+            case 2:
+                controller.onHeroCreate();
+                break;
+            case 3:
+                scanner.close();
+                System.out.println("Exiting the game. Goodbye!");
+                System.exit(0);
+                break;
         }
     }
 
@@ -60,20 +58,12 @@ public class ConsoleView implements GameView {
 
         while (choice < 1 || choice > HeroClass.values().length) {
             System.out.print("Select a hero class by number: ");
-            if (scanner.hasNextInt()) {
-                choice = scanner.nextInt();
-                if (choice < 1 || choice > HeroClass.values().length) {
-                    System.out.println("!!!\nInvalid choice. Please try again.\n!!!");
-                }
-            } else {
-                System.out.println("!!!\nInvalid input. Please enter a number.\n!!!");
-                scanner.next(); // Clear invalid input
-            }
+            choice = checkNextInt(1, HeroClass.values().length);
         }
 
         HeroClass selectedClass = HeroClass.values()[choice - 1];
         System.out.print("Enter hero name: ");
-        String heroName = scanner.next();
+        String heroName = scanner.nextLine();
         Hero hero = new Hero(heroName, selectedClass);
         controller.setHero(hero);
     }
@@ -131,24 +121,48 @@ public class ConsoleView implements GameView {
 
         while (dir == null) {
             System.out.print("Choose direction [N]orth, [S]outh, [E]ast, [W]est: ");
-            
+            String input = getNextToken().toUpperCase();
 
-            if (scanner.hasNextLine()) {
-                String input = scanner.nextLine().trim().toUpperCase();
-                if (input.isEmpty()) {
-                    System.out.println(" no empty please ");
-                    continue;
-                }
-                switch (input.charAt(0)) {
-                    case 'N' -> { return Direction.NORTH; }
-                    case 'S' -> { return Direction.SOUTH; }
-                    case 'E' -> { return Direction.EAST; }
-                    case 'W' -> { return Direction.WEST; }
-                    default -> System.out.println("Invalid input. Please enter N/S/E/W.");
-                }
+            if (input.isEmpty()) {
+                System.out.println(" no empty please ");
+                continue;
+            }
+
+            switch (input) {
+                case "N" -> { return Direction.NORTH; }
+                case "S" -> { return Direction.SOUTH; }
+                case "E" -> { return Direction.EAST; }
+                case "W" -> { return Direction.WEST; }
+                default -> System.out.println("Invalid input. Please enter N/S/E/W.");
             }
         }
         return dir;
+    }
+
+    public String getNextToken() {
+        String line = scanner.nextLine().trim();
+        if (!line.isEmpty()) {
+            String token = line.split("\\s+")[0];
+            return token;
+        }
+        return "";
+    }
+
+    private int checkNextInt(int min, int max) {
+        int input = -1;
+
+        String line = scanner.nextLine().trim();
+        try {
+            input = Integer.parseInt(line);
+            if (input < min || input > max) {
+                System.out.println("!!!\nInvalid input. Please enter a valid number.\n!!!");
+                return -1; // Invalid input
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("!!!\nInvalid input. Please enter a number.\n!!!");
+        }
+
+        return input; // Valid input or -1 if invalid
     }
 
     @Override
