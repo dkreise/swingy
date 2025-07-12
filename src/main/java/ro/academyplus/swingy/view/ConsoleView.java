@@ -113,7 +113,16 @@ public class ConsoleView implements GameView {
         System.out.println("Size of the map: " + mapSize + "x" + mapSize);
         System.out.println("Your position: " + heroPosition);
         Direction dir = askDirection();
-        System.out.println("You've chosen to go " + dir);
+        // System.out.println("You've chosen to go " + dir);
+        controller.handleHeroMovement(dir);
+    }
+
+    @Override
+    public void updateHeroPosition(Position heroPosition) {
+        // System.out.println("Size of the map: " + mapSize + "x" + mapSize);
+        System.out.println("Your position: " + heroPosition);
+        Direction dir = askDirection();
+        controller.handleHeroMovement(dir);
     }
 
     public Direction askDirection() {

@@ -13,5 +13,6 @@ public interface GameView {
     // void showHeroCreationMenu();
     void showHeroStats(Hero hero);
     void startGameLoop(int mapSize, Position heroPosition);
+    void updateHeroPosition(Position heroPosition);
     void showMessage(String message);
 }

@@ -67,4 +67,14 @@ public class GameController {
         Position pos = gameMap.getHeroPosition();
         gameView.startGameLoop(size, pos);
     }
+
+    public void handleHeroMovement(Direction direction) {
+        if (gameMap.moveHero(direction)) {
+            gameView.showMessage("Hero moved " + direction);
+            Position newPosition = gameMap.getHeroPosition();
+            gameView.updateHeroPosition(newPosition);
+        } else {
+            gameView.showMessage("Cannot move in that direction!");
+        }
+    }
 }

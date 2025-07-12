@@ -174,6 +174,9 @@ public class GuiView implements GameView {
     public void startGameLoop(int mapSize, Position heroPosition) {}
 
     @Override
+    public void updateHeroPosition(Position heroPosition) {}
+
+    @Override
     public void showMessage(String message) {
         System.out.println("GUI Message: " + message);
     }
