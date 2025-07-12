@@ -45,15 +45,16 @@ public enum HeroClass {
         throw new IllegalArgumentException("Unknown hero class: " + displayName);
     }
 
+    public static String getHeroClassStat(HeroClass hero) {
+        return hero.getDisplayName() + ": Attack=" + hero.getBaseAttack() + ", Defense=" + hero.getBaseDefense() + ", HitPoints=" + hero.getBaseHitPoints();
+    }
+
     public static void printHeroClasses() {
         int idx = 1;
         for (HeroClass heroClass : values()) {
-            System.out.printf("%d. %s: Attack=%d, Defense=%d, HitPoints=%d%n",
+            System.out.printf("%d. %s%n",
                     idx++,
-                    heroClass.getDisplayName(),
-                    heroClass.getBaseAttack(),
-                    heroClass.getBaseDefense(),
-                    heroClass.getBaseHitPoints());
+                    getHeroClassStat(heroClass));
         }
     }
 }

@@ -6,6 +6,8 @@ import ro.academyplus.swingy.model.hero.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Map;
+import java.util.HashMap;
 
 public class GuiView implements GameView {
     private GameController controller;
@@ -88,6 +90,69 @@ public class GuiView implements GameView {
 
     @Override
     public void showHeroSelectionMenu() {
+        JLabel label = new JLabel("CREATE YOUR HERO", SwingConstants.CENTER);
+        label.setFont(AppStyle.TITLE_FONT);
+        label.setForeground(AppStyle.ACCENT_GREEN);
+        label.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JPanel classPanel = new JPanel(new GridLayout(0, 1));
+        classPanel.add(label);
+        ButtonGroup classGroup = new ButtonGroup();
+        Map<JRadioButton, HeroClass> classButtons = new HashMap<>();
+
+        for (HeroClass hc : HeroClass.values()) {
+            JRadioButton btn = new JRadioButton(HeroClass.getHeroClassStat(hc)); // you can add a method for pretty names
+            classButtons.put(btn, hc);
+            classGroup.add(btn);
+            classPanel.add(btn);
+        }
+
+        // Input field for hero name
+        JPanel inputPanel = new JPanel();
+        JTextField nameField = new JTextField(15);
+        inputPanel.add(new JLabel("Hero Name:"));
+        inputPanel.add(nameField);
+
+        // Create button
+        JButton createButton = new JButton("Create Hero");
+        createButton.addActionListener(e -> {
+            // String name = nameField.getText().trim();
+            // HeroClass selectedClass = null;
+
+            // for (Map.Entry<JRadioButton, HeroClass> entry : classButtons.entrySet()) {
+            //     if (entry.getKey().isSelected()) {
+            //         selectedClass = entry.getValue();
+            //         break;
+            //     }
+            // }
+
+            // // Validation
+            // if (selectedClass == null) {
+            //     JOptionPane.showMessageDialog(frame, "Please select a hero class.");
+            //     return;
+            // }
+
+            // if (name.isEmpty()) {
+            //     JOptionPane.showMessageDialog(frame, "Hero name cannot be empty.");
+            //     return;
+            // }
+
+            // Hero hero = new Hero(name, selectedClass);
+            // controller.setHero(hero);
+            // frame.dispose(); // close the window after hero creation
+        });
+
+        // Put everything together
+        JPanel southPanel = new JPanel(new BorderLayout());
+        southPanel.add(inputPanel, BorderLayout.CENTER);
+        southPanel.add(createButton, BorderLayout.SOUTH);
+
+        frame.getContentPane().removeAll();
+        frame.add(classPanel, BorderLayout.CENTER);
+        frame.add(southPanel, BorderLayout.SOUTH);
+        // frame.setVisible(true);
+        frame.revalidate();
+        frame.repaint();
     }
 
     @Override
