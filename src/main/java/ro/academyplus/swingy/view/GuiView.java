@@ -3,6 +3,7 @@ package ro.academyplus.swingy.view;
 import ro.academyplus.swingy.controller.GameController;
 import ro.academyplus.swingy.utils.AppStyle;
 import ro.academyplus.swingy.model.hero.*;
+import ro.academyplus.swingy.model.map.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -168,6 +169,9 @@ public class GuiView implements GameView {
 
         return panel;
     }
+
+    @Override
+    public void startGameLoop(int mapSize, Position heroPosition) {}
 
     @Override
     public void showMessage(String message) {

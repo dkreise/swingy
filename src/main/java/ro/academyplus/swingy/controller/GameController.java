@@ -2,6 +2,7 @@ package ro.academyplus.swingy.controller;
 
 import ro.academyplus.swingy.view.GameView;
 import ro.academyplus.swingy.model.hero.*;
+import ro.academyplus.swingy.model.map.*;
 
 import javax.swing.*;
 import java.util.Map;
@@ -10,6 +11,7 @@ import java.util.HashMap;
 public class GameController {
     private final GameView gameView;
     private Hero hero;
+    private GameMap gameMap;
 
     public GameController(GameView gameView) {
         this.gameView = gameView;
@@ -58,5 +60,12 @@ public class GameController {
     public void setHero(Hero hero) {
         this.hero = hero;
         gameView.showHeroStats(this.hero);
+    }
+
+    public void handleGameStart() {
+        this.gameMap = new GameMap(hero.getLevel());
+        int size = gameMap.getSize();
+        Position pos = gameMap.getHeroPosition();
+        gameView.startGameLoop(size, pos);
     }
 }

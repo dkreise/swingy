@@ -3,6 +3,7 @@ package ro.academyplus.swingy.view;
 import ro.academyplus.swingy.controller.GameController;
 import ro.academyplus.swingy.model.hero.*;
 import ro.academyplus.swingy.model.artifact.*;
+import ro.academyplus.swingy.model.map.*;
 
 import java.util.Scanner;
 
@@ -105,12 +106,49 @@ public class ConsoleView implements GameView {
         } else {
             System.out.println("Helm: None");
         }
+
+        // TODO: maybe 'Press Enter to start the game'
+        controller.handleGameStart();
     }
 
     @Override
     public void startGame() {
         showWelcomeMessage();
         showMainMenu();
+    }
+
+    @Override
+    public void startGameLoop(int mapSize, Position heroPosition) {
+        System.out.println("\nSTARTING THE GAME");
+        System.out.println("Size of the map: " + mapSize + "x" + mapSize);
+        System.out.println("Your position: " + heroPosition);
+        Direction dir = askDirection();
+        System.out.println("You've chosen to go " + dir);
+    }
+
+    public Direction askDirection() {
+        Direction dir = null;
+
+        while (dir == null) {
+            System.out.print("Choose direction [N]orth, [S]outh, [E]ast, [W]est: ");
+            
+
+            if (scanner.hasNextLine()) {
+                String input = scanner.nextLine().trim().toUpperCase();
+                if (input.isEmpty()) {
+                    System.out.println(" no empty please ");
+                    continue;
+                }
+                switch (input.charAt(0)) {
+                    case 'N' -> { return Direction.NORTH; }
+                    case 'S' -> { return Direction.SOUTH; }
+                    case 'E' -> { return Direction.EAST; }
+                    case 'W' -> { return Direction.WEST; }
+                    default -> System.out.println("Invalid input. Please enter N/S/E/W.");
+                }
+            }
+        }
+        return dir;
     }
 
     @Override
