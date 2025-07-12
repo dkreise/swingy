@@ -40,7 +40,7 @@ public class GuiView implements GameView {
         label.setForeground(AppStyle.ACCENT_GREEN);
 
         // Create start button
-        JButton startButton = new JButton("Start Game");
+        JButton startButton = new JButton("Start");
         AppStyle.stylePrimaryButton(startButton);
         startButton.addActionListener(e -> showMainMenu());
 
@@ -134,6 +134,9 @@ public class GuiView implements GameView {
     public void showHeroStats(Hero hero) {
         JPanel statsPanel = createHeroStatsPanel(hero);
         AppStyle.switchPanel(frame, statsPanel);
+        // TODO: add start game button
+        JButton startButton = new JButton("Start Game");
+        AppStyle.stylePrimaryButton(startButton);
     }
 
     public JPanel createHeroStatsPanel(Hero hero) {
