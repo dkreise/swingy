@@ -101,7 +101,7 @@ public class GuiView implements GameView {
         Map<JRadioButton, HeroClass> classButtons = new HashMap<>();
 
         for (HeroClass hc : HeroClass.values()) {
-            JRadioButton btn = new JRadioButton(HeroClass.getHeroClassStat(hc)); // you can add a method for pretty names
+            JRadioButton btn = new JRadioButton(HeroClass.getHeroClassStat(hc));
             classButtons.put(btn, hc);
             classGroup.add(btn);
             classPanel.add(btn);
@@ -115,32 +115,7 @@ public class GuiView implements GameView {
 
         // Create button
         JButton createButton = new JButton("Create Hero");
-        createButton.addActionListener(e -> {
-            // String name = nameField.getText().trim();
-            // HeroClass selectedClass = null;
-
-            // for (Map.Entry<JRadioButton, HeroClass> entry : classButtons.entrySet()) {
-            //     if (entry.getKey().isSelected()) {
-            //         selectedClass = entry.getValue();
-            //         break;
-            //     }
-            // }
-
-            // // Validation
-            // if (selectedClass == null) {
-            //     JOptionPane.showMessageDialog(frame, "Please select a hero class.");
-            //     return;
-            // }
-
-            // if (name.isEmpty()) {
-            //     JOptionPane.showMessageDialog(frame, "Hero name cannot be empty.");
-            //     return;
-            // }
-
-            // Hero hero = new Hero(name, selectedClass);
-            // controller.setHero(hero);
-            // frame.dispose(); // close the window after hero creation
-        });
+        createButton.addActionListener(e -> controller.handleHeroCreation(nameField, classButtons));
 
         // Put everything together
         JPanel southPanel = new JPanel(new BorderLayout());
@@ -157,6 +132,38 @@ public class GuiView implements GameView {
 
     @Override
     public void showHeroStats(Hero hero) {
+        JPanel statsPanel = createHeroStatsPanel(hero);
+        AppStyle.switchPanel(frame, statsPanel);
+    }
+
+    public JPanel createHeroStatsPanel(Hero hero) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(0, 1));  // vertical stack
+
+        JLabel labelTitle = new JLabel("HERO STATS", SwingConstants.CENTER);
+        labelTitle.setFont(AppStyle.TITLE_FONT);
+        labelTitle.setForeground(AppStyle.ACCENT_GREEN);
+        labelTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        panel.add(labelTitle);
+        panel.add(new JLabel("Name: " + hero.getName()));
+        panel.add(new JLabel("Class: " + hero.getHeroClass().getDisplayName()));
+        panel.add(new JLabel("Level: " + hero.getLevel()));
+        panel.add(new JLabel("Experience: " + hero.getExperience()));
+        panel.add(new JLabel("Attack: " + hero.getTotalAttack()));
+        panel.add(new JLabel("Defense: " + hero.getTotalDefense()));
+        panel.add(new JLabel("Hit Points: " + hero.getTotalHitPoints()));
+
+        panel.add(new JLabel("Weapon: " + 
+            (hero.getWeapon() != null ? hero.getWeapon().getName() + " (+" + hero.getWeapon().getBonus() + ")" : "None")));
+
+        panel.add(new JLabel("Armor: " +
+            (hero.getArmor() != null ? hero.getArmor().getName() + " (+" + hero.getArmor().getBonus() + ")" : "None")));
+
+        panel.add(new JLabel("Helm: " +
+            (hero.getHelm() != null ? hero.getHelm().getName() + " (+" + hero.getHelm().getBonus() + ")" : "None")));
+
+        return panel;
     }
 
     @Override
