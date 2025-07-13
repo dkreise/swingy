@@ -140,6 +140,7 @@ public class ConsoleView implements GameView {
             int choice = askForBattleChoice();
             if (choice == 1) {
                 System.out.println("You chose to fight the villain! How brave! Let's start the battle...");
+                controller.startBattle();
             } else {
                 System.out.println("You chose to run away! Let's see if you can escape...");
                 controller.tryToRun(oldPosition);

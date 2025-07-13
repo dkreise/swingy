@@ -99,7 +99,25 @@ public class GameController {
             gameView.updateHeroPosition(oldPosition, oldPosition, false);
         } else {
             gameView.showMessage("You failed to run away! Prepare for battle!");
-            // Handle battle logic here
+            startBattle();
+        }
+    }
+
+    public void startBattle() {
+        Villain villain = gameMap.getVillainAt(gameMap.getHeroPosition());
+        if (villain == null) {
+            gameView.showMessage("No villain at this position to battle!");
+            return;
+        }
+        BattleResult result = BattleManager.simulateBattle(hero, villain);
+        if (result.isHeroWon()) {
+            gameView.showMessage("You defeated the villain: " + villain.getName() + "!");
+            gameMap.removeVillainAt(gameMap.getHeroPosition()); 
+            // add experience and maybe a artifact
+            startNewMove(); // Continue the game
+        } else {
+            gameView.showMessage("You were defeated by the villain: " + villain.getName() + "!");
+            gameView.showMessage("GAME OVER! Your hero " + hero.getName() + " has fallen.");
         }
     }
 
