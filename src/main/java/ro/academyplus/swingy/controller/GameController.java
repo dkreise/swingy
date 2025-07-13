@@ -67,6 +67,7 @@ public class GameController {
     public void handleGameStart() {
         this.gameMap = new GameMap(hero.getLevel());
         populateVillains();
+        gameMap.printVillains();
 
         gameView.startNewGame(hero, gameMap);
     }
@@ -87,7 +88,19 @@ public class GameController {
         gameMap.moveHero(direction);
         Position newPosition = gameMap.getHeroPosition();
         boolean hasVillain = gameMap.hasVillainAt(newPosition);
-        gameView.updateHeroPosition(newPosition, hasVillain);
+        gameView.updateHeroPosition(newPosition, oldPosition, hasVillain);
+    }
+
+    public void tryToRun(Position oldPosition) {
+        boolean success = BattleManager.tryLuckToRun();
+        if (success) {
+            gameView.showMessage("You successfully ran away from the villain!");
+            gameMap.setHeroPosition(oldPosition); // Reset to old position
+            gameView.updateHeroPosition(oldPosition, oldPosition, false);
+        } else {
+            gameView.showMessage("You failed to run away! Prepare for battle!");
+            // Handle battle logic here
+        }
     }
 
     public void populateVillains() {

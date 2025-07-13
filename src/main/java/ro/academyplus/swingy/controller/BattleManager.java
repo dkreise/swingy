@@ -57,4 +57,9 @@ public class BattleManager {
         }
         return null;
     }
+
+    public static boolean tryLuckToRun() {
+        // 50% chance to escape
+        return random.nextDouble() < 0.5;
+    }
 }

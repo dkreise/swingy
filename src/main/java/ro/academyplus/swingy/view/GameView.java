@@ -14,6 +14,6 @@ public interface GameView {
     void showHeroStats(Hero hero);
     void startNewGame(Hero hero, GameMap gameMap);
     void askDirection(Position heroPosition);
-    void updateHeroPosition(Position heroPosition, boolean hasVillain);
+    void updateHeroPosition(Position heroPosition, Position oldPosition, boolean hasVillain);
     void showMessage(String message);
 }

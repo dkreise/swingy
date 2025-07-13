@@ -82,4 +82,14 @@ public class GameMap {
         int mid = size / 2;
         return position.getX() == mid && position.getY() == mid;
     }
+
+    public void printVillains() {
+        System.out.println("Villains on the map:");
+        for (Map.Entry<Position, Villain> entry : villains.entrySet()) {
+            Position pos = entry.getKey();
+            Villain villain = entry.getValue();
+            System.out.printf("Position: %s, Villain: %s (Level: %d, Power: %d)\n",
+                    pos, villain.getName(), villain.getLevel(), villain.getPower());
+        }
+    }
 }

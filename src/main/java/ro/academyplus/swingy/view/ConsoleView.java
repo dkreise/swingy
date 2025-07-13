@@ -131,12 +131,19 @@ public class ConsoleView implements GameView {
     }
 
     @Override
-    public void updateHeroPosition(Position heroPosition, boolean hasVillain) {
+    public void updateHeroPosition(Position heroPosition, Position oldPosition, boolean hasVillain) {
         // System.out.println("Size of the map: " + mapSize + "x" + mapSize);
         System.out.println("Your position: " + heroPosition);
         if (hasVillain) {
             System.out.println("You encountered a villain at this position!");
-            // ask for choice to fight or run
+            System.out.println("Try you luck!");
+            int choice = askForBattleChoice();
+            if (choice == 1) {
+                System.out.println("You chose to fight the villain! How brave! Let's start the battle...");
+            } else {
+                System.out.println("You chose to run away! Let's see if you can escape...");
+                controller.tryToRun(oldPosition);
+            }
         } else {
             System.out.println("No villains here, you can move freely.");
             controller.startNewMove();
@@ -164,6 +171,19 @@ public class ConsoleView implements GameView {
             }
         }
         return dir;
+    }
+
+    private int askForBattleChoice() {
+        int choice = -1;
+
+        while (choice < 1 || choice > 2) {
+            System.out.println("1. Fight the villain");
+            System.out.println("2. Run away");
+            System.out.print("Enter your choice: ");
+            choice = checkNextInt(1, 2);
+        }
+
+        return choice;
     }
 
     public String getNextToken() {
