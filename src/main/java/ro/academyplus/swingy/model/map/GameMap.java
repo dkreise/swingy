@@ -1,14 +1,19 @@
 package ro.academyplus.swingy.model.map;
 
+import ro.academyplus.swingy.model.villain.Villain;
+
+import java.util.Map;
+import java.util.HashMap;
+
 public class GameMap {
     private final int size;
     private Position heroPosition;
+    private final Map<Position, Villain> villains = new HashMap<>();
 
     public GameMap(int heroLevel) {
         this.size = (heroLevel - 1) * 5 + 10 - (heroLevel % 2);
         int mid = size / 2;
         this.heroPosition = new Position(mid, mid);
-        // TODO: generate villain positions randomly
     }
 
     public boolean moveHero(Direction dir) {
@@ -55,5 +60,26 @@ public class GameMap {
 
     public void setHeroPosition(Position heroPosition) {
         this.heroPosition = heroPosition;
+    }
+
+    public boolean hasVillainAt(Position position) {
+        return villains.containsKey(position);
+    }
+
+    public void placeVillain(Position position, Villain villain) {
+        villains.put(position, villain);
+    }
+
+    public Villain getVillainAt(Position position) {
+        return villains.get(position);
+    }
+
+    public void removeVillainAt(Position position) {
+        villains.remove(position);
+    }
+
+    public boolean isCenter(Position position) {
+        int mid = size / 2;
+        return position.getX() == mid && position.getY() == mid;
     }
 }

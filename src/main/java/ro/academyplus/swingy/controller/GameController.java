@@ -1,11 +1,14 @@
 package ro.academyplus.swingy.controller;
 
 import ro.academyplus.swingy.view.GameView;
+import ro.academyplus.swingy.controller.factories.VillainFactory;
 import ro.academyplus.swingy.model.hero.*;
 import ro.academyplus.swingy.model.map.*;
+import ro.academyplus.swingy.model.villain.Villain;
 
 import javax.swing.*;
 import java.util.Map;
+import java.util.Random;
 
 public class GameController {
     private final GameView gameView;
@@ -63,8 +66,8 @@ public class GameController {
 
     public void handleGameStart() {
         this.gameMap = new GameMap(hero.getLevel());
-        // int size = gameMap.getSize();
-        // Position pos = gameMap.getHeroPosition();
+        populateVillains();
+
         gameView.startNewGame(hero, gameMap);
     }
 
@@ -72,7 +75,7 @@ public class GameController {
         Position heroPosition = gameMap.getHeroPosition();
         boolean victory = gameMap.heroIsAtEdge();
         if (victory) {
-            gameView.showMessage("Congratulations! You've reached the edge of the map and won the game!");
+            gameView.showMessage("Congratulations! You've reached the edge of the gameMap and won the game!");
             return;
         }
         // int mapSize = gameMap.getSize();
@@ -83,15 +86,29 @@ public class GameController {
         Position oldPosition = gameMap.getHeroPosition();
         gameMap.moveHero(direction);
         Position newPosition = gameMap.getHeroPosition();
-        boolean hasVillain = false; // gameMap.hasVillainAt(newPosition);
+        boolean hasVillain = gameMap.hasVillainAt(newPosition);
         gameView.updateHeroPosition(newPosition, hasVillain);
     }
 
-    // private void checkPosition(Position oldPosition, Position newPosition) {
-    //     boolean hasVillain = false; // gameMap.hasVillainAt(newPosition);
-    //     if (hasVillain) {
-    //         gameView.showMessage("Combat initiated with a villain at " + newPosition);
-    //         // ask for option to fight or run (try your luck)
-    //     } 
-    // }
+    public void populateVillains() {
+        Random random = new Random();
+        int size = gameMap.getSize();
+        int heroLevel = hero.getLevel();
+        int numberOfVillains = size + random.nextInt(size / 2); // e.g. ~40 villains for 39x39 gameMap
+
+        for (int i = 0; i < numberOfVillains; ) {
+            int x = random.nextInt(size);
+            int y = random.nextInt(size);
+            Position position = new Position(x, y);
+
+            // Avoid center (hero spawn) and occupied tiles
+            if (gameMap.hasVillainAt(position) || gameMap.isCenter(position)) {
+                continue;
+            }
+
+            Villain villain = VillainFactory.createRandomVillain(heroLevel);
+            gameMap.placeVillain(position, villain);
+            i++;
+        }
+    }
 }
