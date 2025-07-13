@@ -6,7 +6,7 @@ public class GameMap {
 
     public GameMap(int heroLevel) {
         this.size = (heroLevel - 1) * 5 + 10 - (heroLevel % 2);
-        int mid = size / 2 + 1;
+        int mid = size / 2;
         this.heroPosition = new Position(mid, mid);
         // TODO: generate villain positions randomly
     }
@@ -51,5 +51,9 @@ public class GameMap {
 
     public Position getHeroPosition() {
         return this.heroPosition;
+    }
+
+    public void setHeroPosition(Position heroPosition) {
+        this.heroPosition = heroPosition;
     }
 }

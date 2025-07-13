@@ -171,10 +171,13 @@ public class GuiView implements GameView {
     }
 
     @Override
-    public void startGameLoop(int mapSize, Position heroPosition) {}
+    public void startNewGame(Hero hero, GameMap gameMap) {}
 
     @Override
-    public void updateHeroPosition(Position heroPosition) {}
+    public void askDirection(Position heroPosition) {}
+
+    @Override
+    public void updateHeroPosition(Position heroPosition, boolean hasVillain) {}
 
     @Override
     public void showMessage(String message) {

@@ -10,6 +10,8 @@ import java.util.Scanner;
 public class ConsoleView implements GameView {
     private GameController controller;
     private final Scanner scanner = new Scanner(System.in);
+    private Hero hero;
+    private GameMap gameMap;
 
     @Override
     public void showWelcomeMessage() {
@@ -108,24 +110,40 @@ public class ConsoleView implements GameView {
     }
 
     @Override
-    public void startGameLoop(int mapSize, Position heroPosition) {
-        System.out.println("\nSTARTING THE GAME");
-        System.out.println("Size of the map: " + mapSize + "x" + mapSize);
+    public void startNewGame(Hero hero, GameMap gameMap) {
+        this.hero = hero;
+        this.gameMap = gameMap;
+        // int mapSize = gameMap.getSize();
+        Position heroPosition = gameMap.getHeroPosition();
+        
+        System.out.println("Starting new game with hero: " + hero.getName());
+        askDirection(heroPosition);
+    }
+
+    @Override
+    public void askDirection(Position heroPosition) {
+        System.out.println("\nSTARTING NEW MOVE");
+        System.out.println("Size of the map: " + gameMap.getSize() + "x" + gameMap.getSize());
         System.out.println("Your position: " + heroPosition);
-        Direction dir = askDirection();
+        Direction dir = getDirection();
         // System.out.println("You've chosen to go " + dir);
         controller.handleHeroMovement(dir);
     }
 
     @Override
-    public void updateHeroPosition(Position heroPosition) {
+    public void updateHeroPosition(Position heroPosition, boolean hasVillain) {
         // System.out.println("Size of the map: " + mapSize + "x" + mapSize);
         System.out.println("Your position: " + heroPosition);
-        Direction dir = askDirection();
-        controller.handleHeroMovement(dir);
+        if (hasVillain) {
+            System.out.println("You encountered a villain at this position!");
+            // ask for choice to fight or run
+        } else {
+            System.out.println("No villains here, you can move freely.");
+            controller.startNewMove();
+        }
     }
 
-    public Direction askDirection() {
+    public Direction getDirection() {
         Direction dir = null;
 
         while (dir == null) {

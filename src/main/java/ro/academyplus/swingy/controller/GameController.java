@@ -63,18 +63,35 @@ public class GameController {
 
     public void handleGameStart() {
         this.gameMap = new GameMap(hero.getLevel());
-        int size = gameMap.getSize();
-        Position pos = gameMap.getHeroPosition();
-        gameView.startGameLoop(size, pos);
+        // int size = gameMap.getSize();
+        // Position pos = gameMap.getHeroPosition();
+        gameView.startNewGame(hero, gameMap);
+    }
+
+    public void startNewMove() {
+        Position heroPosition = gameMap.getHeroPosition();
+        boolean victory = gameMap.heroIsAtEdge();
+        if (victory) {
+            gameView.showMessage("Congratulations! You've reached the edge of the map and won the game!");
+            return;
+        }
+        // int mapSize = gameMap.getSize();
+        gameView.askDirection(heroPosition);
     }
 
     public void handleHeroMovement(Direction direction) {
-        if (gameMap.moveHero(direction)) {
-            gameView.showMessage("Hero moved " + direction);
-            Position newPosition = gameMap.getHeroPosition();
-            gameView.updateHeroPosition(newPosition);
-        } else {
-            gameView.showMessage("Cannot move in that direction!");
-        }
+        Position oldPosition = gameMap.getHeroPosition();
+        gameMap.moveHero(direction);
+        Position newPosition = gameMap.getHeroPosition();
+        boolean hasVillain = false; // gameMap.hasVillainAt(newPosition);
+        gameView.updateHeroPosition(newPosition, hasVillain);
     }
+
+    // private void checkPosition(Position oldPosition, Position newPosition) {
+    //     boolean hasVillain = false; // gameMap.hasVillainAt(newPosition);
+    //     if (hasVillain) {
+    //         gameView.showMessage("Combat initiated with a villain at " + newPosition);
+    //         // ask for option to fight or run (try your luck)
+    //     } 
+    // }
 }

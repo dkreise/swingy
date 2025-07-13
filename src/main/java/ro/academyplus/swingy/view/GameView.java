@@ -12,7 +12,8 @@ public interface GameView {
     void showHeroSelectionMenu();
     // void showHeroCreationMenu();
     void showHeroStats(Hero hero);
-    void startGameLoop(int mapSize, Position heroPosition);
-    void updateHeroPosition(Position heroPosition);
+    void startNewGame(Hero hero, GameMap gameMap);
+    void askDirection(Position heroPosition);
+    void updateHeroPosition(Position heroPosition, boolean hasVillain);
     void showMessage(String message);
 }
