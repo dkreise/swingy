@@ -202,8 +202,17 @@ public class GuiView implements GameView {
         mapPanel.setMovementEnabled(false);
         mapPanel.updateHeroPosition(heroPosition.getX(), heroPosition.getY());
         if (hasVillain) {
-            System.out.println("You encountered a villain at this position!");
-            System.out.println("Try you luck!");
+            // System.out.println("You encountered a villain at this position!");
+            // System.out.println("Try you luck!");
+            int choice = mapPanel.askForBattleChoice();
+            System.out.println("CHOICE: " + choice);
+            if (choice != 1) {
+                showMessage("You chose to fight the villain! How brave! Let's start the battle...");
+                controller.startBattle();
+            } else {
+                showMessage("You chose to run away! Let's see if you can escape...");
+                controller.tryToRun(oldPosition);
+            }
         } else {
             controller.startNewMove();
         }
@@ -211,7 +220,7 @@ public class GuiView implements GameView {
 
     @Override
     public void showMessage(String message) {
-        System.out.println("GUI Message: " + message);
+        mapPanel.showMessageDialog(message, "!!!");
     }
 
     public void setController(GameController controller) {

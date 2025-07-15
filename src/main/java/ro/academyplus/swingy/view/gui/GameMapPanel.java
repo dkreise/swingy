@@ -79,6 +79,29 @@ public class GameMapPanel extends JPanel {
         this.movementEnabled = enabled;
     }
 
+    public int askForBattleChoice() {
+        int choice = JOptionPane.showOptionDialog(
+            this,
+            "You encountered a villain at this position! What do you want to do?",
+            "Villain!",
+            JOptionPane.DEFAULT_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+            null,
+            new String[] {"Fight", "Run"},
+            "Fight"
+        );
+        return choice;
+    }
+
+    public void showMessageDialog(String message, String title) {
+        JOptionPane.showMessageDialog(
+            SwingUtilities.getWindowAncestor(this),
+            message,
+            title,
+            JOptionPane.INFORMATION_MESSAGE
+        );
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
