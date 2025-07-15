@@ -5,6 +5,7 @@ import ro.academyplus.swingy.controller.factories.VillainFactory;
 import ro.academyplus.swingy.model.hero.*;
 import ro.academyplus.swingy.model.map.*;
 import ro.academyplus.swingy.model.villain.Villain;
+import ro.academyplus.swingy.utils.ValidationUtils;
 
 import javax.swing.*;
 import java.util.Map;
@@ -44,24 +45,18 @@ public class GameController {
             }
         }
 
-        // // Validation
-        // if (selectedClass == null) {
-        //     JOptionPane.showMessageDialog(frame, "Please select a hero class.");
-        //     return;
-        // }
-
-        // if (name.isEmpty()) {
-        //     JOptionPane.showMessageDialog(frame, "Hero name cannot be empty.");
-        //     return;
-        // }
-
         Hero hero = new Hero(name, selectedClass);
         this.setHero(hero);
     }
 
     public void setHero(Hero hero) {
-        this.hero = hero;
-        gameView.showHeroStats(this.hero);
+        if (ValidationUtils.validate(hero)) {
+            this.hero = hero;
+            gameView.showHeroStats(this.hero);
+        } else {
+            System.out.println("Invalid hero name. Please try again.");
+            this.onHeroCreate();
+        }
     }
 
     public void handleGameStart() {

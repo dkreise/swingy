@@ -1,9 +1,17 @@
 package ro.academyplus.swingy.model.hero;
 
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
 import ro.academyplus.swingy.model.artifact.*;
 
 public class Hero {
+
+    @NotBlank(message = "Hero name must not be blank")
+    @Size(min = 2, max = 15, message = "Hero name must be between 2 and 15 characters")
+    @Pattern(regexp = "[a-zA-Z0-9]+", message = "Hero name must contain only letters and numbers")
     private String name;
+
     private HeroClass heroClass;
     private int level;
     private int experience;
