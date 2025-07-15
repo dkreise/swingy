@@ -151,6 +151,22 @@ public class ConsoleView implements GameView {
         }
     }
 
+    @Override
+    public void notifyAboutArtifactDropped(Artifact artifactDropped) {
+        System.out.println("Wow! New artifact dropped!");
+        System.out.println("What would you like to do with it?");
+        int choice = -1;
+
+        while (choice < 1 || choice > 2) {
+            System.out.println("1. Keep");
+            System.out.println("2. Leave");
+            System.out.print("Enter your choice: ");
+            choice = checkNextInt(1, 2);
+        }
+
+
+    }
+
     public Direction getDirection() {
         Direction dir = null;
 

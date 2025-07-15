@@ -219,6 +219,11 @@ public class GuiView implements GameView {
     }
 
     @Override
+    public void notifyAboutArtifactDropped(Artifact artifactDropped) {
+        
+    }
+
+    @Override
     public void showMessage(String message) {
         mapPanel.showMessageDialog(message, "!!!");
     }

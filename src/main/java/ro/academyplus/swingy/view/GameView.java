@@ -3,6 +3,7 @@ package ro.academyplus.swingy.view;
 import ro.academyplus.swingy.controller.GameController;
 import ro.academyplus.swingy.model.hero.*;
 import ro.academyplus.swingy.model.map.*;
+import ro.academyplus.swingy.model.aircraft.*;
 
 public interface GameView {
     void setController(GameController controller);
@@ -15,5 +16,6 @@ public interface GameView {
     void startNewGame(Hero hero, GameMap gameMap);
     void askDirection(Position heroPosition);
     void updateHeroPosition(Position heroPosition, Position oldPosition, boolean hasVillain);
+    void notifyAboutArtifactDropped(Artifact artifactDropped);
     void showMessage(String message);
 }

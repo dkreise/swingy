@@ -53,6 +53,18 @@ public class Hero {
         }
     }
 
+    public void setWeapon(Weapon weapon) {
+        this.weapon = weapon;
+    }
+
+    public void setArmor(Armor armor) {
+        this.armor = armor;
+    }
+
+    public void setHelm(Helm helm) {
+        this.helm = helm;
+    }
+
     public int getTotalAttack() {
         int weaponBonus = (weapon != null) ? weapon.getBonus() : 0;
         return attack + weaponBonus;
