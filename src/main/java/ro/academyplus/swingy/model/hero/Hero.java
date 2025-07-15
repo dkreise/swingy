@@ -25,7 +25,7 @@ public class Hero {
     public Hero(String name, HeroClass heroClass) {
         this.name = name;
         this.heroClass = heroClass;
-        this.level = 0;
+        this.level = 1;
         this.experience = 0;
         this.attack = heroClass.getBaseAttack();
         this.defense = heroClass.getBaseDefense();
@@ -36,6 +36,22 @@ public class Hero {
     }
 
     // TODO: constructor for loading from file - existing heros
+
+    public void addExperience(int xp) {
+        this.experience += xp;
+        if (newLevel()) {
+            this.level++;
+        }
+    }
+
+    private boolean newLevel() {
+        int xpNeeded = level * 1000 + (level - 1) * (level - 1) * 450;
+        if (experience >= xpNeeded) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public int getTotalAttack() {
         int weaponBonus = (weapon != null) ? weapon.getBonus() : 0;

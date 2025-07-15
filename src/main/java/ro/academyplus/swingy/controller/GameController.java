@@ -109,6 +109,14 @@ public class GameController {
             gameView.showMessage("You defeated the villain: " + villain.getName() + "!");
             gameMap.removeVillainAt(gameMap.getHeroPosition()); 
             // add experience and maybe a artifact
+            int xpGained = result.getXpGained();
+            int curLevel = hero.getLevel();
+            hero.addExperience(xpGained);
+            gameView.showMessage("You gained " + xpGained + " experience points!");
+            if (curLevel < hero.getLevel()) {
+                gameView.showMessage("NEW LEVEL! Now you are at level " + hero.getLevel());
+            }
+            Artifact artifactDropped = result.getArtifactDropped();
             startNewMove(); // Continue the game
         } else {
             gameView.showMessage("You were defeated by the villain: " + villain.getName() + "!");
