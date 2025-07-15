@@ -4,6 +4,7 @@ import ro.academyplus.swingy.controller.GameController;
 import ro.academyplus.swingy.utils.AppStyle;
 import ro.academyplus.swingy.model.hero.*;
 import ro.academyplus.swingy.model.map.*;
+import ro.academyplus.swingy.view.gui.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +13,10 @@ import java.util.HashMap;
 
 public class GuiView implements GameView {
     private GameController controller;
+    private Hero hero;
+    private GameMap gameMap;
     private JFrame frame;
+    private GameMapPanel mapPanel;
 
     public GuiView() {
         SwingUtilities.invokeLater(this::createAndShowGUI);
@@ -134,10 +138,12 @@ public class GuiView implements GameView {
     @Override
     public void showHeroStats(Hero hero) {
         JPanel statsPanel = createHeroStatsPanel(hero);
-        AppStyle.switchPanel(frame, statsPanel);
-        // TODO: add start game button
         JButton startButton = new JButton("Start Game");
         AppStyle.stylePrimaryButton(startButton);
+        startButton.addActionListener(e -> controller.handleGameStart());
+        statsPanel.add(startButton);
+
+        AppStyle.switchPanel(frame, statsPanel);
     }
 
     public JPanel createHeroStatsPanel(Hero hero) {
@@ -171,13 +177,37 @@ public class GuiView implements GameView {
     }
 
     @Override
-    public void startNewGame(Hero hero, GameMap gameMap) {}
+    public void startNewGame(Hero hero, GameMap gameMap) {
+        this.hero = hero;
+        this.gameMap = gameMap;
+        Position heroPosition = gameMap.getHeroPosition();
+        int mapSize = gameMap.getSize();
+        this.mapPanel = new GameMapPanel(this, mapSize, heroPosition.getX(), heroPosition.getY());
+        // frame.add(mapPanel, BorderLayout.CENTER);
+        AppStyle.switchPanel(frame, mapPanel);
+        askDirection(heroPosition);
+    }
 
     @Override
-    public void askDirection(Position heroPosition) {}
+    public void askDirection(Position heroPosition) {
+        mapPanel.setMovementEnabled(true);
+    }
+
+    public void askToHandleHeroMovement(Direction dir) {
+        controller.handleHeroMovement(dir);
+    }
 
     @Override
-    public void updateHeroPosition(Position heroPosition, Position oldPosition, boolean hasVillain) {}
+    public void updateHeroPosition(Position heroPosition, Position oldPosition, boolean hasVillain) {
+        mapPanel.setMovementEnabled(false);
+        mapPanel.updateHeroPosition(heroPosition.getX(), heroPosition.getY());
+        if (hasVillain) {
+            System.out.println("You encountered a villain at this position!");
+            System.out.println("Try you luck!");
+        } else {
+            controller.startNewMove();
+        }
+    }
 
     @Override
     public void showMessage(String message) {
