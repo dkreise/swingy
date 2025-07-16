@@ -164,7 +164,9 @@ public class ConsoleView implements GameView {
             choice = checkNextInt(1, 2);
         }
 
-
+        if (choice == 1) {
+            controller.keepNewArtifact(artifactDropped);
+        }
     }
 
     public Direction getDirection() {

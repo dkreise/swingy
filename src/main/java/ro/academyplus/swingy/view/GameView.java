@@ -3,7 +3,7 @@ package ro.academyplus.swingy.view;
 import ro.academyplus.swingy.controller.GameController;
 import ro.academyplus.swingy.model.hero.*;
 import ro.academyplus.swingy.model.map.*;
-import ro.academyplus.swingy.model.aircraft.*;
+import ro.academyplus.swingy.model.artifact.*;
 
 public interface GameView {
     void setController(GameController controller);

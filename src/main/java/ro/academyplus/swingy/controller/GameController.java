@@ -4,6 +4,7 @@ import ro.academyplus.swingy.view.GameView;
 import ro.academyplus.swingy.controller.factories.VillainFactory;
 import ro.academyplus.swingy.model.hero.*;
 import ro.academyplus.swingy.model.map.*;
+import ro.academyplus.swingy.model.artifact.*;
 import ro.academyplus.swingy.model.villain.Villain;
 import ro.academyplus.swingy.utils.ValidationUtils;
 
@@ -131,7 +132,19 @@ public class GameController {
     }
 
     public void keepNewArtifact(Artifact artifactDropped) {
-        
+        ArtifactType type = artifactDropped.getType();
+        System.out.println("type of artifact: " + type);
+        switch (type) {
+            case WEAPON:
+                hero.setWeapon((Weapon) artifactDropped);
+                break;
+            case ARMOR:
+                hero.setArmor((Armor) artifactDropped);
+                break;
+            case HELM:
+                hero.setHelm((Helm) artifactDropped);
+                break;
+        }
     }
 
     public void populateVillains() {
