@@ -93,6 +93,20 @@ public class GameMapPanel extends JPanel {
         return choice;
     }
 
+    public int askForArtifactChoice() {
+        int choice = JOptionPane.showOptionDialog(
+            this,
+            "Wow! New artifact dropped! What would you like to do with it?",
+            "New Artifact!",
+            JOptionPane.DEFAULT_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+            null,
+            new String[] {"Keep", "Leave"},
+            "Keep"
+        );
+        return choice;
+    }
+
     public void showMessageDialog(String message, String title) {
         JOptionPane.showMessageDialog(
             SwingUtilities.getWindowAncestor(this),

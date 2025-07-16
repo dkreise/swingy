@@ -221,7 +221,11 @@ public class GuiView implements GameView {
 
     @Override
     public void notifyAboutArtifactDropped(Artifact artifactDropped) {
+        int choice = mapPanel.askForArtifactChoice();
         
+        if (choice == 0) {
+            controller.keepNewArtifact(artifactDropped);
+        }
     }
 
     @Override
