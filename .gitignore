@@ -1,5 +1,6 @@
 target/
 swingy.jar 
+swingy.db
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
