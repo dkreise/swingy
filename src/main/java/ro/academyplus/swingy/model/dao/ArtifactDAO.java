@@ -27,6 +27,7 @@ public class ArtifactDAO {
 
             ResultSet generatedKeys = stmt.getGeneratedKeys();
             if (generatedKeys.next()) {
+                System.out.println("Artifact inserted with ID: " + generatedKeys.getInt(1));
                 return generatedKeys.getInt(1); // return the auto-generated ID
             } else {
                 throw new SQLException("Failed to retrieve artifact ID.");
@@ -56,5 +57,16 @@ public class ArtifactDAO {
             }
         }
         return null;
+    }
+
+    public void deleteArtifact(int id) throws SQLException {
+        String sql = "DELETE FROM artifacts WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected == 0) {
+                throw new SQLException("No artifact found with ID: " + id);
+            }
+        }
     }
 }

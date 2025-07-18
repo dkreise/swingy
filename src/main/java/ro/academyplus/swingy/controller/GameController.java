@@ -39,6 +39,7 @@ public class GameController {
         System.out.println("Selecting a hero...\n");
         try {
             System.out.println(heroDAO.getAllHeroes());
+            // System.out.println(artifactDAO.getArtifactById(1));
         } catch (Exception e) {
             System.out.println("Error fetching heroes: " + e.getMessage());
             return;
@@ -157,16 +158,43 @@ public class GameController {
     public void keepNewArtifact(Artifact artifactDropped) {
         ArtifactType type = artifactDropped.getType();
         System.out.println("type of artifact: " + type);
+        try {
+            int artifactId = artifactDAO.insertArtifact(artifactDropped);
+            artifactDropped.setId(artifactId);
+            System.out.println("Artifact inserted with ID: " + artifactId);
+        } catch (Exception e) {
+            System.out.println("Error inserting artifact: " + e.getMessage());
+            return;
+        }
+
+        int old_id = 0;
+
         switch (type) {
             case WEAPON:
+                if (hero.getWeapon() != null) {
+                    old_id = hero.getWeapon().getId();
+                }
                 hero.setWeapon((Weapon) artifactDropped);
                 break;
             case ARMOR:
+                if (hero.getArmor() != null) {
+                    old_id = hero.getArmor().getId();
+                }
                 hero.setArmor((Armor) artifactDropped);
                 break;
             case HELM:
+                if (hero.getHelm() != null) {
+                    old_id = hero.getHelm().getId();
+                }
                 hero.setHelm((Helm) artifactDropped);
                 break;
+        }
+        try {
+            if (old_id != 0) {
+                artifactDAO.deleteArtifact(old_id); // Remove old artifact
+            }
+        } catch (Exception e) {
+            System.out.println("Error deleting artifact: " + e.getMessage());
         }
     }
 
