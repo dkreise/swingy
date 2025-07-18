@@ -3,6 +3,7 @@ package ro.academyplus.swingy.model.artifact;
 public class Weapon implements Artifact {
     private final String name;
     private final int attackBonus;
+    private int id;
 
     public Weapon(String name, int attackBonus) {
         this.name = name;
@@ -22,5 +23,15 @@ public class Weapon implements Artifact {
     @Override
     public int getBonus() {
         return attackBonus;
+    }
+
+    @Override
+    public int getId() {
+        return id;
+    }   
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 }
