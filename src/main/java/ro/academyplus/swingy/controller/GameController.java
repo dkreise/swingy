@@ -7,19 +7,28 @@ import ro.academyplus.swingy.model.map.*;
 import ro.academyplus.swingy.model.artifact.*;
 import ro.academyplus.swingy.model.villain.Villain;
 import ro.academyplus.swingy.utils.ValidationUtils;
+import ro.academyplus.swingy.model.dao.*;
 
 import javax.swing.*;
+
+import java.sql.Connection;
 import java.util.Map;
 import java.util.Random;
 
 public class GameController {
     private final GameView gameView;
+    private final Connection connection;
+    private final HeroDAO heroDAO;
+    private final ArtifactDAO artifactDAO;
     private Hero hero;
     private GameMap gameMap;
 
-    public GameController(GameView gameView) {
+    public GameController(GameView gameView, Connection connection) {
         this.gameView = gameView;
         this.gameView.setController(this);
+        this.connection = connection;
+        this.artifactDAO = new ArtifactDAO(connection);
+        this.heroDAO = new HeroDAO(connection, artifactDAO);
     }
 
     public void startGame() {
@@ -28,6 +37,12 @@ public class GameController {
 
     public void onHeroSelect() {
         System.out.println("Selecting a hero...\n");
+        try {
+            System.out.println(heroDAO.getAllHeroes());
+        } catch (Exception e) {
+            System.out.println("Error fetching heroes: " + e.getMessage());
+            return;
+        }
     }
 
     public void onHeroCreate() {
@@ -53,6 +68,14 @@ public class GameController {
     public void setHero(Hero hero) {
         if (ValidationUtils.validate(hero)) {
             this.hero = hero;
+            try {
+                int heroId = heroDAO.insertHero(hero);
+                this.hero.setId(heroId);
+                System.out.println("Hero created successfully with ID: " + heroId);
+            } catch (Exception e) {
+                System.out.println("Error creating hero: " + e.getMessage());
+                return;
+            }
             gameView.showHeroStats(this.hero);
         } else {
             System.out.println("Invalid hero name. Please try again.");

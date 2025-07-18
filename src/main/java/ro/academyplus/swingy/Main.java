@@ -5,12 +5,9 @@ import ro.academyplus.swingy.controller.GameController;
 import ro.academyplus.swingy.utils.DatabaseManager;
 
 import java.sql.Connection;
-// import java.sql.DriverManager;
 import java.sql.SQLException;
-// import java.sql.Statement;
 
 public class Main {
-    // private final static GameView gameView;
 
     public static void main(String[] args) {
         GameView gameView;
@@ -40,9 +37,10 @@ public class Main {
             System.out.println("✅ Connection to db established.");
         } catch (SQLException e) {
             System.out.println("❌ Connection to db failed: " + e.getMessage());
+            return;
         }
 
-        GameController gameController = new GameController(gameView);
+        GameController gameController = new GameController(gameView, dbManager.getConnection());
         gameController.startGame();
 
         // close the scanner if using ConsoleView
