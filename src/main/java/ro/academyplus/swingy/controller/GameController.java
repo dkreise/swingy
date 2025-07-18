@@ -138,9 +138,19 @@ public class GameController {
             int xpGained = result.getXpGained();
             int curLevel = hero.getLevel();
             hero.addExperience(xpGained);
+            try {
+                heroDAO.updateExperience(hero.getId(), hero.getExperience());
+            } catch (Exception e) {
+                System.out.println("Error updating hero experience: " + e.getMessage());
+            }
             gameView.showMessage("You gained " + xpGained + " experience points!");
             if (curLevel < hero.getLevel()) {
                 gameView.showMessage("NEW LEVEL! Now you are at level " + hero.getLevel());
+                try {
+                    heroDAO.updateLevel(hero.getId(), hero.getLevel());
+                } catch (Exception e) {
+                    System.out.println("Error updating hero level: " + e.getMessage());
+                }
             }
 
             Artifact artifactDropped = result.getArtifactDropped();
@@ -158,39 +168,54 @@ public class GameController {
     public void keepNewArtifact(Artifact artifactDropped) {
         ArtifactType type = artifactDropped.getType();
         System.out.println("type of artifact: " + type);
+
+        int artifactId;
         try {
-            int artifactId = artifactDAO.insertArtifact(artifactDropped);
+            artifactId = artifactDAO.insertArtifact(artifactDropped);
             artifactDropped.setId(artifactId);
-            System.out.println("Artifact inserted with ID: " + artifactId);
         } catch (Exception e) {
             System.out.println("Error inserting artifact: " + e.getMessage());
             return;
         }
 
-        int old_id = 0;
-
+        int old_id = -1;
         switch (type) {
             case WEAPON:
                 if (hero.getWeapon() != null) {
                     old_id = hero.getWeapon().getId();
                 }
                 hero.setWeapon((Weapon) artifactDropped);
+                try {
+                    heroDAO.updateWeapon(hero.getId(), artifactId);
+                } catch (Exception e) {
+                    System.out.println("Error updating weapon: " + e.getMessage());
+                }
                 break;
             case ARMOR:
                 if (hero.getArmor() != null) {
                     old_id = hero.getArmor().getId();
                 }
                 hero.setArmor((Armor) artifactDropped);
+                try {
+                    heroDAO.updateArmor(hero.getId(), artifactId);
+                } catch (Exception e) {
+                    System.out.println("Error updating armor: " + e.getMessage());
+                }
                 break;
             case HELM:
                 if (hero.getHelm() != null) {
                     old_id = hero.getHelm().getId();
                 }
                 hero.setHelm((Helm) artifactDropped);
+                try {
+                    heroDAO.updateHelm(hero.getId(), artifactId);
+                } catch (Exception e) {
+                    System.out.println("Error updating helm: " + e.getMessage());
+                }
                 break;
         }
         try {
-            if (old_id != 0) {
+            if (old_id != -1) {
                 artifactDAO.deleteArtifact(old_id); // Remove old artifact
             }
         } catch (Exception e) {

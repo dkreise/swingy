@@ -25,15 +25,15 @@ public class HeroDAO {
     public int insertHero(Hero hero) throws SQLException {
         Integer weaponId = null, armorId = null, helmId = null;
 
-        if (hero.getWeapon() != null) {
-            weaponId = artifactDAO.insertArtifact(hero.getWeapon());
-        }
-        if (hero.getArmor() != null) {
-            armorId = artifactDAO.insertArtifact(hero.getArmor());
-        }
-        if (hero.getHelm() != null) {
-            helmId = artifactDAO.insertArtifact(hero.getHelm());
-        }
+        // if (hero.getWeapon() != null) {
+        //     weaponId = artifactDAO.insertArtifact(hero.getWeapon());
+        // }
+        // if (hero.getArmor() != null) {
+        //     armorId = artifactDAO.insertArtifact(hero.getArmor());
+        // }
+        // if (hero.getHelm() != null) {
+        //     helmId = artifactDAO.insertArtifact(hero.getHelm());
+        // }
 
         String sql = "INSERT INTO heroes (name, heroClass, level, experience, attack, defense, hitPoints, weapon_id, armor_id, helm_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -105,5 +105,50 @@ public class HeroDAO {
             }
         }
         return heroes;
+    }
+
+    public void updateExperience(int heroId, int experience) throws SQLException {
+        String sql = "UPDATE heroes SET experience = ? WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, experience);
+            stmt.setInt(2, heroId);
+            stmt.executeUpdate();
+        }
+    }
+
+    public void updateLevel(int heroId, int level) throws SQLException {
+        String sql = "UPDATE heroes SET level = ? WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, level);
+            stmt.setInt(2, heroId);
+            stmt.executeUpdate();
+        }
+    }
+
+    public void updateWeapon(int heroId, int weaponId) throws SQLException {
+        String sql = "UPDATE heroes SET weapon_id = ? WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setObject(1, weaponId, Types.INTEGER);
+            stmt.setInt(2, heroId);
+            stmt.executeUpdate();
+        }
+    }
+
+    public void updateArmor(int heroId, int armorId) throws SQLException {
+        String sql = "UPDATE heroes SET armor_id = ? WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setObject(1, armorId, Types.INTEGER);
+            stmt.setInt(2, heroId);
+            stmt.executeUpdate();
+        }
+    }
+
+    public void updateHelm(int heroId, int helmId) throws SQLException {
+        String sql = "UPDATE heroes SET helm_id = ? WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setObject(1, helmId, Types.INTEGER);
+            stmt.setInt(2, heroId);
+            stmt.executeUpdate();
+        }
     }
 }
