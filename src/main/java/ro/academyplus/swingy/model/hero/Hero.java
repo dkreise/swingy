@@ -138,6 +138,19 @@ public class Hero {
         return helm;
     }
 
+    public Artifact getArtifactByType(ArtifactType type) {
+        switch (type) {
+            case WEAPON:
+                return weapon;
+            case ARMOR:
+                return armor;
+            case HELM:
+                return helm;
+            default:
+                return null;
+        }
+    }
+
     public int getId() {
         return id;
     }

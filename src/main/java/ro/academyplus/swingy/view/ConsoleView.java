@@ -8,6 +8,7 @@ import ro.academyplus.swingy.model.map.*;
 import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ConsoleView implements GameView {
     private GameController controller;
@@ -17,12 +18,8 @@ public class ConsoleView implements GameView {
 
     @Override
     public void showWelcomeMessage() {
-        String message = "Welcome to Swingy Game!";
-        int length = message.length();
-
-        System.out.println("+" + "-".repeat(length + 2) + "+");
-        System.out.println("| " + message + " |");
-        System.out.println("+" + "-".repeat(length + 2) + "+");
+        String message = "WELCOME TO SWINGY GAME!";
+        printTitle(message);
     }
 
     @Override
@@ -30,11 +27,11 @@ public class ConsoleView implements GameView {
         int choice = 0;
 
         while (choice < 1 || choice > 3) {
-            System.out.println("MAIN MENU:");
+            printTitle("MAIN MENU");
             System.out.println("1. Select Existing Hero");
             System.out.println("2. Create New Hero");
             System.out.println("3. Exit");
-            System.out.print("Enter your choice: ");
+            System.out.print("\nEnter your choice: ");
 
             choice = checkNextInt(1, 3);
         }
@@ -56,7 +53,7 @@ public class ConsoleView implements GameView {
 
     @Override
     public void showHeroCreationMenu() {
-        System.out.println("HERO CLASSES:");
+        printTitle("HERO CLASSES");
         HeroClass.printHeroClasses();
         int choice = 0;
 
@@ -74,7 +71,7 @@ public class ConsoleView implements GameView {
 
     @Override
     public void showHeroSelectionMenu(List<Hero> heroes) {
-        System.out.println("CHOOSE YOUR HERO:");
+        printTitle("YOUR HEROES");
 
         int i = 1;
         for (Hero hero: heroes) {
@@ -95,7 +92,7 @@ public class ConsoleView implements GameView {
 
     @Override
     public void showHeroStats(Hero hero) {
-        System.out.println("STATS FOR HERO - " + hero.getName() + ":");
+        printTitle("STATS FOR HERO - " + hero.getName());
         printHeroStats(hero);
         controller.handleGameStart();
     }
@@ -132,8 +129,12 @@ public class ConsoleView implements GameView {
         // System.out.println("Size of the map: " + mapSize + "x" + mapSize);
         System.out.println("Your position: " + heroPosition);
         if (hasVillain) {
-            System.out.println("You encountered a villain at this position!");
-            System.out.println("Try you luck!");
+            // System.out.println("You encountered a villain at this position!");
+            // System.out.println("Try you luck!");
+            printInfoBox(
+                "You encountered a villain at this position!",
+                "Try you luck!"
+            );
             int choice = askForBattleChoice();
             if (choice == 1) {
                 System.out.println("You chose to fight the villain! How brave! Let's start the battle...");
@@ -143,14 +144,28 @@ public class ConsoleView implements GameView {
                 controller.tryToRun(oldPosition);
             }
         } else {
-            System.out.println("No villains here, you can move freely.");
+            printInfoBox("No villains here, you can move freely.");
             controller.startNewMove();
         }
     }
 
     @Override
     public void notifyAboutArtifactDropped(Artifact artifactDropped) {
-        System.out.println("Wow! New artifact dropped!");
+        ArtifactType type = artifactDropped.getType();
+
+        // System.out.println("\nNEW ARTIFACT! \"" + artifactDropped.getName() + "\" (Bonus: " + artifactDropped.getBonus() + ")");
+        // System.out.println("Wow! New " + type.toString() + " has dropped!");
+        printInfoBox(
+            "\nNEW ARTIFACT! \"" + artifactDropped.getName() + "\" (Bonus: " + artifactDropped.getBonus() + ")",
+            "Wow! New " + type.toString() + " has dropped!"
+        );
+                
+        Artifact curArtifact = hero.getArtifactByType(type);
+        if (curArtifact != null) {
+            System.out.println("Currently you have " + type.toString() + " \"" + curArtifact.getName() + "\" (Bonus: " + curArtifact.getBonus() + ").");
+        } else {
+            System.out.println("Currently you don't have any " + type.toString() + ".");
+        }
         System.out.println("What would you like to do with it?");
         int choice = -1;
 
@@ -259,6 +274,23 @@ public class ConsoleView implements GameView {
     @Override
     public void showMessage(String message) {
         System.out.println(message);
+    }
+
+    private void printTitle(String message) {
+        int length = message.length();
+
+        System.out.println("\n╔" + "═".repeat(length + 2) + "╗");
+        System.out.println("║ " + message + " ║");
+        System.out.println("╚" + "═".repeat(length + 2) + "╝\n");
+    }
+
+    private void printInfoBox(String... lines) {
+        int maxLength = Arrays.stream(lines).mapToInt(String::length).max().orElse(0);
+        System.out.println("+" + "-".repeat(maxLength + 2) + "+");
+        for (String line : lines) {
+            System.out.printf("| %-"+ maxLength +"s |\n", line);
+        }
+        System.out.println("+" + "-".repeat(maxLength + 2) + "+");
     }
     
     public void setController(GameController controller) {
