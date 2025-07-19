@@ -129,7 +129,7 @@ public class GameController {
             gameView.showMessage("No villain at this position to battle!");
             return;
         }
-        
+
         BattleResult result = BattleManager.simulateBattle(hero, villain);
         if (result.isHeroWon()) {
             gameView.showMessage("You defeated the villain: " + villain.getName() + "!");
@@ -164,13 +164,13 @@ public class GameController {
 
         switch (type) {
             case WEAPON:
-                keepWeapon(artifactId);
+                keepWeapon(artifactId, artifactDropped);
                 break;
             case ARMOR:
-                keepArmor(artifactId);
+                keepArmor(artifactId, artifactDropped);
                 break;
             case HELM:
-                keepHelm(artifactId);
+                keepHelm(artifactId, artifactDropped);
                 break;
         }
     }
@@ -219,11 +219,11 @@ public class GameController {
         }
     }
 
-    public void keepWeapon(int artifactId) {
+    public void keepWeapon(int artifactId, Artifact artifactDropped) {
         int oldId = -1;
 
         if (hero.getWeapon() != null) {
-            old_id = hero.getWeapon().getId();
+            oldId = hero.getWeapon().getId();
         }
         hero.setWeapon((Weapon) artifactDropped);
         try {
@@ -234,11 +234,11 @@ public class GameController {
         deleteOldArtifact(oldId);
     }
 
-    public void keepArmor(int artifactId) {
+    public void keepArmor(int artifactId, Artifact artifactDropped) {
         int oldId = -1;
 
         if (hero.getArmor() != null) {
-            old_id = hero.getArmor().getId();
+            oldId = hero.getArmor().getId();
         }
         hero.setArmor((Armor) artifactDropped);
         try {
@@ -249,11 +249,11 @@ public class GameController {
         deleteOldArtifact(oldId);
     }
 
-    public void keepHelm(int artifactId) {
+    public void keepHelm(int artifactId, Artifact artifactDropped) {
         int oldId = -1;
 
         if (hero.getHelm() != null) {
-            old_id = hero.getHelm().getId();
+            oldId = hero.getHelm().getId();
         }
         hero.setHelm((Helm) artifactDropped);
         try {
@@ -266,8 +266,8 @@ public class GameController {
 
     public void deleteOldArtifact(int oldId) {
         try {
-            if (old_id >= 0) {
-                artifactDAO.deleteArtifact(old_id);
+            if (oldId >= 0) {
+                artifactDAO.deleteArtifact(oldId);
             }
         } catch (Exception e) {
             System.out.println("Error deleting artifact: " + e.getMessage());
