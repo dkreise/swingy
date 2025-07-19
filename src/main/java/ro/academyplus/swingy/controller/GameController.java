@@ -129,29 +129,13 @@ public class GameController {
             gameView.showMessage("No villain at this position to battle!");
             return;
         }
+        
         BattleResult result = BattleManager.simulateBattle(hero, villain);
         if (result.isHeroWon()) {
             gameView.showMessage("You defeated the villain: " + villain.getName() + "!");
             gameMap.removeVillainAt(gameMap.getHeroPosition()); 
 
-            // add experience and maybe a artifact
-            int xpGained = result.getXpGained();
-            int curLevel = hero.getLevel();
-            hero.addExperience(xpGained);
-            try {
-                heroDAO.updateExperience(hero.getId(), hero.getExperience());
-            } catch (Exception e) {
-                System.out.println("Error updating hero experience: " + e.getMessage());
-            }
-            gameView.showMessage("You gained " + xpGained + " experience points!");
-            if (curLevel < hero.getLevel()) {
-                gameView.showMessage("NEW LEVEL! Now you are at level " + hero.getLevel());
-                try {
-                    heroDAO.updateLevel(hero.getId(), hero.getLevel());
-                } catch (Exception e) {
-                    System.out.println("Error updating hero level: " + e.getMessage());
-                }
-            }
+            updateXpAndLevel(result);
 
             Artifact artifactDropped = result.getArtifactDropped();
             if (artifactDropped != null) {
@@ -178,48 +162,16 @@ public class GameController {
             return;
         }
 
-        int old_id = -1;
         switch (type) {
             case WEAPON:
-                if (hero.getWeapon() != null) {
-                    old_id = hero.getWeapon().getId();
-                }
-                hero.setWeapon((Weapon) artifactDropped);
-                try {
-                    heroDAO.updateWeapon(hero.getId(), artifactId);
-                } catch (Exception e) {
-                    System.out.println("Error updating weapon: " + e.getMessage());
-                }
+                keepWeapon(artifactId);
                 break;
             case ARMOR:
-                if (hero.getArmor() != null) {
-                    old_id = hero.getArmor().getId();
-                }
-                hero.setArmor((Armor) artifactDropped);
-                try {
-                    heroDAO.updateArmor(hero.getId(), artifactId);
-                } catch (Exception e) {
-                    System.out.println("Error updating armor: " + e.getMessage());
-                }
+                keepArmor(artifactId);
                 break;
             case HELM:
-                if (hero.getHelm() != null) {
-                    old_id = hero.getHelm().getId();
-                }
-                hero.setHelm((Helm) artifactDropped);
-                try {
-                    heroDAO.updateHelm(hero.getId(), artifactId);
-                } catch (Exception e) {
-                    System.out.println("Error updating helm: " + e.getMessage());
-                }
+                keepHelm(artifactId);
                 break;
-        }
-        try {
-            if (old_id != -1) {
-                artifactDAO.deleteArtifact(old_id); // Remove old artifact
-            }
-        } catch (Exception e) {
-            System.out.println("Error deleting artifact: " + e.getMessage());
         }
     }
 
@@ -242,6 +194,83 @@ public class GameController {
             Villain villain = VillainFactory.createRandomVillain(heroLevel);
             gameMap.placeVillain(position, villain);
             i++;
+        }
+    }
+
+    public void updateXpAndLevel(BattleResult result) {
+        int xpGained = result.getXpGained();
+        int curLevel = hero.getLevel();
+
+        hero.addExperience(xpGained);
+        try {
+            heroDAO.updateExperience(hero.getId(), hero.getExperience());
+        } catch (Exception e) {
+            System.out.println("Error updating hero experience: " + e.getMessage());
+        }
+        gameView.showMessage("You gained " + xpGained + " experience points!");
+
+        if (curLevel < hero.getLevel()) {
+            gameView.showMessage("NEW LEVEL! Now you are at level " + hero.getLevel());
+            try {
+                heroDAO.updateLevel(hero.getId(), hero.getLevel());
+            } catch (Exception e) {
+                System.out.println("Error updating hero level: " + e.getMessage());
+            }
+        }
+    }
+
+    public void keepWeapon(int artifactId) {
+        int oldId = -1;
+
+        if (hero.getWeapon() != null) {
+            old_id = hero.getWeapon().getId();
+        }
+        hero.setWeapon((Weapon) artifactDropped);
+        try {
+            heroDAO.updateWeapon(hero.getId(), artifactId);
+        } catch (Exception e) {
+            System.out.println("Error updating Weapon: " + e.getMessage());
+        }
+        deleteOldArtifact(oldId);
+    }
+
+    public void keepArmor(int artifactId) {
+        int oldId = -1;
+
+        if (hero.getArmor() != null) {
+            old_id = hero.getArmor().getId();
+        }
+        hero.setArmor((Armor) artifactDropped);
+        try {
+            heroDAO.updateArmor(hero.getId(), artifactId);
+        } catch (Exception e) {
+            System.out.println("Error updating Armor: " + e.getMessage());
+        }
+        deleteOldArtifact(oldId);
+    }
+
+    public void keepHelm(int artifactId) {
+        int oldId = -1;
+
+        if (hero.getHelm() != null) {
+            old_id = hero.getHelm().getId();
+        }
+        hero.setHelm((Helm) artifactDropped);
+        try {
+            heroDAO.updateHelm(hero.getId(), artifactId);
+        } catch (Exception e) {
+            System.out.println("Error updating Helm: " + e.getMessage());
+        }
+        deleteOldArtifact(oldId);
+    }
+
+    public void deleteOldArtifact(int oldId) {
+        try {
+            if (old_id >= 0) {
+                artifactDAO.deleteArtifact(old_id);
+            }
+        } catch (Exception e) {
+            System.out.println("Error deleting artifact: " + e.getMessage());
         }
     }
 }
