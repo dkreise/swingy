@@ -41,7 +41,7 @@ public class ArtifactDAO {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                ArtifactType type = ArtifactType.valueOf(rs.getString("type"));
+                ArtifactType type = ArtifactType.valueOf(rs.getString("type").toUpperCase());
                 String name = rs.getString("name");
                 int bonus = rs.getInt("bonus");
                 switch (type) {

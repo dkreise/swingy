@@ -77,7 +77,10 @@ public class HeroDAO {
                 Artifact armor = artifactDAO.getArtifactById(rs.getInt("armor_id"));
                 Artifact helm = artifactDAO.getArtifactById(rs.getInt("helm_id"));
 
-                return new Hero(name, heroClass, level, experience, attack, defense, hitPoints, (Weapon) weapon, (Armor) armor, (Helm) helm);
+                Hero hero = new Hero(name, heroClass, level, experience, attack, defense, hitPoints, (Weapon) weapon, (Armor) armor, (Helm) helm);
+                hero.setId(id);
+
+                return hero;
             }
         }
         return null; // Hero not found
@@ -101,6 +104,7 @@ public class HeroDAO {
                 Artifact helm = artifactDAO.getArtifactById(rs.getInt("helm_id"));
 
                 Hero hero = new Hero(name, heroClass, level, experience, attack, defense, hitPoints, (Weapon) weapon, (Armor) armor, (Helm) helm);
+                hero.setId(rs.getInt("id"));
                 heroes.add(hero);
             }
         }

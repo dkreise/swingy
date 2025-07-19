@@ -67,19 +67,21 @@ public class GameController {
         }
 
         Hero hero = new Hero(name, selectedClass);
-        this.setHero(hero);
+        this.setHero(hero, true);
     }
 
-    public void setHero(Hero hero) {
+    public void setHero(Hero hero, boolean created) {
         if (ValidationUtils.validate(hero)) {
             this.hero = hero;
-            try {
-                int heroId = heroDAO.insertHero(hero);
-                this.hero.setId(heroId);
-                System.out.println("Hero created successfully with ID: " + heroId);
-            } catch (Exception e) {
-                System.out.println("Error creating hero: " + e.getMessage());
-                return;
+            if (created) {
+                try {
+                    int heroId = heroDAO.insertHero(hero);
+                    this.hero.setId(heroId);
+                    System.out.println("Hero created successfully with ID: " + heroId);
+                } catch (Exception e) {
+                    System.out.println("Error creating hero: " + e.getMessage());
+                    return;
+                }
             }
             gameView.showHeroStats(this.hero);
         } else {

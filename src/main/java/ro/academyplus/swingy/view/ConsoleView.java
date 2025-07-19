@@ -69,7 +69,7 @@ public class ConsoleView implements GameView {
         System.out.print("Enter hero name: ");
         String heroName = scanner.nextLine();
         Hero hero = new Hero(heroName, selectedClass);
-        controller.setHero(hero);
+        controller.setHero(hero, true);
     }
 
     @Override
@@ -78,42 +78,25 @@ public class ConsoleView implements GameView {
 
         int i = 1;
         for (Hero hero: heroes) {
-            System.out.print(i + " ");
-            showHeroStats(hero);
+            System.out.println(i + ". " + hero.getName());
+            printHeroStats(hero);
             System.out.println();
+            i++;
         }
+
+        int choice = 0;
+        while (choice < 1 || choice > heroes.size()) {
+            System.out.print("Select a hero by it's number: ");
+            choice = checkNextInt(1, heroes.size());
+        }
+        Hero hero = heroes.get(choice - 1);
+        controller.setHero(hero, false);
     }
 
     @Override
     public void showHeroStats(Hero hero) {
-        System.out.println("HERO STATS:");
-        System.out.println("Name: " + hero.getName());
-        System.out.println("Class: " + hero.getHeroClass().getDisplayName());
-        System.out.println("Level: " + hero.getLevel());
-        System.out.println("Experience: " + hero.getExperience());
-        System.out.println("Attack: " + hero.getTotalAttack());
-        System.out.println("Defense: " + hero.getTotalDefense());
-        System.out.println("Hit Points: " + hero.getTotalHitPoints());
-
-        if (hero.getWeapon() != null) {
-            System.out.printf("Weapon: %s (Bonus: %d)%n", hero.getWeapon().getName(), hero.getWeapon().getBonus());
-        } else {
-            System.out.println("Weapon: None");
-        }
-
-        if (hero.getArmor() != null) {
-            System.out.printf("Armor: %s (Bonus: %d)%n", hero.getArmor().getName(), hero.getArmor().getBonus());
-        } else {
-            System.out.println("Armor: None");
-        }
-
-        if (hero.getHelm() != null) {
-            System.out.printf("Helm: %s (Bonus: %d)%n", hero.getHelm().getName(), hero.getHelm().getBonus());
-        } else {
-            System.out.println("Helm: None");
-        }
-
-        // TODO: maybe 'Press Enter to start the game'
+        System.out.println("STATS FOR HERO - " + hero.getName() + ":");
+        printHeroStats(hero);
         controller.handleGameStart();
     }
 
@@ -243,6 +226,34 @@ public class ConsoleView implements GameView {
         }
 
         return input; // Valid input or -1 if invalid
+    }
+
+    private void printHeroStats(Hero hero) {
+        // System.out.println("Name: " + hero.getName());
+        System.out.println("Class: " + hero.getHeroClass().getDisplayName());
+        System.out.println("Level: " + hero.getLevel());
+        System.out.println("Experience: " + hero.getExperience());
+        System.out.println("Attack: " + hero.getTotalAttack());
+        System.out.println("Defense: " + hero.getTotalDefense());
+        System.out.println("Hit Points: " + hero.getTotalHitPoints());
+
+        if (hero.getWeapon() != null) {
+            System.out.printf("Weapon: %s (Bonus: %d)%n", hero.getWeapon().getName(), hero.getWeapon().getBonus());
+        } else {
+            System.out.println("Weapon: None");
+        }
+
+        if (hero.getArmor() != null) {
+            System.out.printf("Armor: %s (Bonus: %d)%n", hero.getArmor().getName(), hero.getArmor().getBonus());
+        } else {
+            System.out.println("Armor: None");
+        }
+
+        if (hero.getHelm() != null) {
+            System.out.printf("Helm: %s (Bonus: %d)%n", hero.getHelm().getName(), hero.getHelm().getBonus());
+        } else {
+            System.out.println("Helm: None");
+        }
     }
 
     @Override
