@@ -272,7 +272,7 @@ public class GameController {
 
     public void deleteOldArtifact(int oldId) {
         try {
-            if (oldId >= 0) {
+            if (oldId > 0) {
                 artifactDAO.deleteArtifact(oldId);
             }
         } catch (Exception e) {

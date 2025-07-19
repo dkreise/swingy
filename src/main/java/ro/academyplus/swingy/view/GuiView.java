@@ -139,7 +139,10 @@ public class GuiView implements GameView {
     }
 
     @Override
-    public void showHeroSelectionMenu(List<Hero> heroes) {}
+    public void showHeroSelectionMenu(List<Hero> heroes) {
+        HeroSelectionPanel heroSelectionPanel = new HeroSelectionPanel(heroes, controller);
+        AppStyle.switchPanel(frame, heroSelectionPanel);
+    }
 
     @Override
     public void showHeroStats(Hero hero) {
