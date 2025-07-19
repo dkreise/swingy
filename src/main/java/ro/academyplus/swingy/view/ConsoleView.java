@@ -6,6 +6,8 @@ import ro.academyplus.swingy.model.artifact.*;
 import ro.academyplus.swingy.model.map.*;
 
 import java.util.Scanner;
+import java.util.List;
+import java.util.ArrayList;
 
 public class ConsoleView implements GameView {
     private GameController controller;
@@ -53,7 +55,7 @@ public class ConsoleView implements GameView {
     }
 
     @Override
-    public void showHeroSelectionMenu() {
+    public void showHeroCreationMenu() {
         System.out.println("HERO CLASSES:");
         HeroClass.printHeroClasses();
         int choice = 0;
@@ -71,15 +73,27 @@ public class ConsoleView implements GameView {
     }
 
     @Override
+    public void showHeroSelectionMenu(List<Hero> heroes) {
+        System.out.println("CHOOSE YOUR HERO:");
+
+        int i = 1;
+        for (Hero hero: heroes) {
+            System.out.print(i + " ");
+            showHeroStats(hero);
+            System.out.println();
+        }
+    }
+
+    @Override
     public void showHeroStats(Hero hero) {
         System.out.println("HERO STATS:");
-        System.out.printf("Name: %s%n", hero.getName());
-        System.out.printf("Class: %s%n", hero.getHeroClass().getDisplayName());
-        System.out.printf("Level: %d%n", hero.getLevel());
-        System.out.printf("Experience: %d%n", hero.getExperience());
-        System.out.printf("Attack: %d%n", hero.getTotalAttack());
-        System.out.printf("Defense: %d%n", hero.getTotalDefense());
-        System.out.printf("Hit Points: %d%n", hero.getTotalHitPoints());
+        System.out.println("Name: " + hero.getName());
+        System.out.println("Class: " + hero.getHeroClass().getDisplayName());
+        System.out.println("Level: " + hero.getLevel());
+        System.out.println("Experience: " + hero.getExperience());
+        System.out.println("Attack: " + hero.getTotalAttack());
+        System.out.println("Defense: " + hero.getTotalDefense());
+        System.out.println("Hit Points: " + hero.getTotalHitPoints());
 
         if (hero.getWeapon() != null) {
             System.out.printf("Weapon: %s (Bonus: %d)%n", hero.getWeapon().getName(), hero.getWeapon().getBonus());

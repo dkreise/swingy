@@ -14,6 +14,8 @@ import javax.swing.*;
 import java.sql.Connection;
 import java.util.Map;
 import java.util.Random;
+import java.util.List;
+import java.util.ArrayList;
 
 public class GameController {
     private final GameView gameView;
@@ -37,18 +39,20 @@ public class GameController {
 
     public void onHeroSelect() {
         System.out.println("Selecting a hero...\n");
+        List<Hero> heroes;
         try {
-            System.out.println(heroDAO.getAllHeroes());
-            // System.out.println(artifactDAO.getArtifactById(1));
+            heroes = heroDAO.getAllHeroes();
+            // gameView.showHeroSelectionMenu(heroes);
         } catch (Exception e) {
             System.out.println("Error fetching heroes: " + e.getMessage());
             return;
         }
+        gameView.showHeroSelectionMenu(heroes);
     }
 
     public void onHeroCreate() {
         System.out.println("Creating a new hero...\n");
-        gameView.showHeroSelectionMenu();
+        gameView.showHeroCreationMenu();
     }
 
     public void handleHeroCreation(JTextField nameField, Map<JRadioButton, HeroClass> classButtons) {

@@ -11,6 +11,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 
 public class GuiView implements GameView {
     private GameController controller;
@@ -95,7 +97,7 @@ public class GuiView implements GameView {
     }
 
     @Override
-    public void showHeroSelectionMenu() {
+    public void showHeroCreationMenu() {
         JLabel label = new JLabel("CREATE YOUR HERO", SwingConstants.CENTER);
         label.setFont(AppStyle.TITLE_FONT);
         label.setForeground(AppStyle.ACCENT_GREEN);
@@ -135,6 +137,9 @@ public class GuiView implements GameView {
         frame.revalidate();
         frame.repaint();
     }
+
+    @Override
+    public void showHeroSelectionMenu(List<Hero> heroes) {}
 
     @Override
     public void showHeroStats(Hero hero) {
