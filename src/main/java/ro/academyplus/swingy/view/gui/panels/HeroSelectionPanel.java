@@ -1,4 +1,4 @@
-package ro.academyplus.swingy.view.gui;
+package ro.academyplus.swingy.view.gui.panels;
 
 import javax.swing.*;
 import java.awt.*;

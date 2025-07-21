@@ -1,7 +1,7 @@
-package ro.academyplus.swingy.view.gui;
+package ro.academyplus.swingy.view.gui.panels;
 
 import ro.academyplus.swingy.model.map.*;
-import ro.academyplus.swingy.view.GuiView;
+import ro.academyplus.swingy.view.gui.GuiView;
 
 import javax.swing.*;
 import java.awt.*;

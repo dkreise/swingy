@@ -1,13 +1,13 @@
-package ro.academyplus.swingy.view;
+package ro.academyplus.swingy.view.console;
 
 import ro.academyplus.swingy.controller.GameController;
 import ro.academyplus.swingy.model.hero.*;
 import ro.academyplus.swingy.model.artifact.*;
 import ro.academyplus.swingy.model.map.*;
+import ro.academyplus.swingy.view.GameView;
 
 import java.util.Scanner;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ConsoleView implements GameView {

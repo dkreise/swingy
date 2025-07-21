@@ -1,6 +1,8 @@
 package ro.academyplus.swingy;
 
 import ro.academyplus.swingy.view.*;
+import ro.academyplus.swingy.view.console.ConsoleView;
+import ro.academyplus.swingy.view.gui.GuiView;
 import ro.academyplus.swingy.controller.GameController;
 import ro.academyplus.swingy.utils.DatabaseManager;
 

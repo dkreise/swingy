@@ -1,11 +1,12 @@
-package ro.academyplus.swingy.view;
+package ro.academyplus.swingy.view.gui;
 
 import ro.academyplus.swingy.controller.GameController;
 import ro.academyplus.swingy.utils.AppStyle;
+import ro.academyplus.swingy.view.GameView;
+import ro.academyplus.swingy.view.gui.panels.*;
 import ro.academyplus.swingy.model.hero.*;
 import ro.academyplus.swingy.model.map.*;
 import ro.academyplus.swingy.model.artifact.*;
-import ro.academyplus.swingy.view.gui.*;
 
 import javax.swing.*;
 import java.awt.*;
