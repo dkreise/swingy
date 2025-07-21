@@ -15,11 +15,10 @@ import java.sql.Connection;
 import java.util.Map;
 import java.util.Random;
 import java.util.List;
-import java.util.ArrayList;
 
 public class GameController {
     private final GameView gameView;
-    private final Connection connection;
+    // private final Connection connection;
     private final HeroDAO heroDAO;
     private final ArtifactDAO artifactDAO;
     private Hero hero;
@@ -28,7 +27,7 @@ public class GameController {
     public GameController(GameView gameView, Connection connection) {
         this.gameView = gameView;
         this.gameView.setController(this);
-        this.connection = connection;
+        // this.connection = connection;
         this.artifactDAO = new ArtifactDAO(connection);
         this.heroDAO = new HeroDAO(connection, artifactDAO);
     }
@@ -38,7 +37,7 @@ public class GameController {
     }
 
     public void onHeroSelect() {
-        System.out.println("Selecting a hero...\n");
+        // System.out.println("Selecting a hero...\n");
         List<Hero> heroes;
         try {
             heroes = heroDAO.getAllHeroes();
@@ -51,7 +50,7 @@ public class GameController {
     }
 
     public void onHeroCreate() {
-        System.out.println("Creating a new hero...\n");
+        // System.out.println("Creating a new hero...\n");
         gameView.showHeroCreationMenu();
     }
 
@@ -102,7 +101,7 @@ public class GameController {
         Position heroPosition = gameMap.getHeroPosition();
         boolean victory = gameMap.heroIsAtEdge();
         if (victory) {
-            gameView.showMessage("Congratulations! You've reached the edge of the gameMap and won the game!");
+            gameView.showMessage("Congratulations! You've reached the edge of the game map and won the game!");
             return;
         }
         // int mapSize = gameMap.getSize();

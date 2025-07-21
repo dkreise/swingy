@@ -1,5 +1,8 @@
 package ro.academyplus.swingy.view.gui.panels;
 
+import ro.academyplus.swingy.model.hero.Hero;
+import ro.academyplus.swingy.model.artifact.Artifact;
+import ro.academyplus.swingy.model.artifact.ArtifactType;
 import ro.academyplus.swingy.model.map.*;
 import ro.academyplus.swingy.view.gui.GuiView;
 
@@ -9,14 +12,16 @@ import java.awt.event.ActionEvent;
 
 public class GameMapPanel extends JPanel {
     private GuiView guiView;
+    private final Hero hero;
     private final int mapSize;
     private final int tileSize = 40; // px
     private int heroX;
     private int heroY;
     private boolean movementEnabled = false;
 
-    public GameMapPanel(GuiView guiView, int mapSize, int startX, int startY) {
+    public GameMapPanel(GuiView guiView, Hero hero, int mapSize, int startX, int startY) {
         this.guiView = guiView;
+        this.hero = hero;
         this.mapSize = mapSize;
         this.heroX = startX;
         this.heroY = startY;
@@ -93,10 +98,30 @@ public class GameMapPanel extends JPanel {
         return choice;
     }
 
-    public int askForArtifactChoice() {
+    public int askForArtifactChoice(Artifact artifactDropped) {
+        ArtifactType type = artifactDropped.getType();
+        Artifact curArtifact = hero.getArtifactByType(type);
+
+        String question = "What would you like to do with it?";
+        String curArtifactInfo = "";
+        if (curArtifact != null) {
+            curArtifactInfo ="Currently you have " + type.toString() + " \"" + curArtifact.getName() + "\" (Bonus: " + curArtifact.getBonus() + ").";
+        } else {
+            curArtifactInfo = "Currently you don't have any " + type.toString() + ".";
+        }
+
+        String message = String.format(
+            "Wow! New %s has dropped!\n\"%s\" (Bonus: %d)\n\n%s\n%s",
+            type.toString(),
+            artifactDropped.getName(),
+            artifactDropped.getBonus(),
+            curArtifactInfo,
+            question
+        );
+
         int choice = JOptionPane.showOptionDialog(
             this,
-            "Wow! New artifact dropped! What would you like to do with it?",
+            message,
             "New Artifact!",
             JOptionPane.DEFAULT_OPTION,
             JOptionPane.QUESTION_MESSAGE,

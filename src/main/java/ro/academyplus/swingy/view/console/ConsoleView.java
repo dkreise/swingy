@@ -58,12 +58,12 @@ public class ConsoleView implements GameView {
         int choice = 0;
 
         while (choice < 1 || choice > HeroClass.values().length) {
-            System.out.print("Select a hero class by number: ");
+            System.out.print("\nSelect a hero class by number: ");
             choice = checkNextInt(1, HeroClass.values().length);
         }
 
         HeroClass selectedClass = HeroClass.values()[choice - 1];
-        System.out.print("Enter hero name: ");
+        System.out.print("\nEnter hero name: ");
         String heroName = scanner.nextLine();
         Hero hero = new Hero(heroName, selectedClass);
         controller.setHero(hero, true);
@@ -110,13 +110,13 @@ public class ConsoleView implements GameView {
         // int mapSize = gameMap.getSize();
         Position heroPosition = gameMap.getHeroPosition();
         
-        System.out.println("Starting new game with hero: " + hero.getName());
+        // System.out.println("Starting new game with hero: " + hero.getName());
         askDirection(heroPosition);
     }
 
     @Override
     public void askDirection(Position heroPosition) {
-        System.out.println("\nSTARTING NEW MOVE");
+        printTitle("MOVE");
         System.out.println("Size of the map: " + gameMap.getSize() + "x" + gameMap.getSize());
         System.out.println("Your position: " + heroPosition);
         Direction dir = getDirection();
@@ -133,7 +133,7 @@ public class ConsoleView implements GameView {
             // System.out.println("Try you luck!");
             printInfoBox(
                 "You encountered a villain at this position!",
-                "Try you luck!"
+                "Try your luck!"
             );
             int choice = askForBattleChoice();
             if (choice == 1) {
@@ -156,7 +156,8 @@ public class ConsoleView implements GameView {
         // System.out.println("\nNEW ARTIFACT! \"" + artifactDropped.getName() + "\" (Bonus: " + artifactDropped.getBonus() + ")");
         // System.out.println("Wow! New " + type.toString() + " has dropped!");
         printInfoBox(
-            "\nNEW ARTIFACT! \"" + artifactDropped.getName() + "\" (Bonus: " + artifactDropped.getBonus() + ")",
+            "NEW ARTIFACT! ",
+            "\"" + artifactDropped.getName() + "\" (Bonus: " + artifactDropped.getBonus() + ")",
             "Wow! New " + type.toString() + " has dropped!"
         );
                 
@@ -172,7 +173,7 @@ public class ConsoleView implements GameView {
         while (choice < 1 || choice > 2) {
             System.out.println("1. Keep");
             System.out.println("2. Leave");
-            System.out.print("Enter your choice: ");
+            System.out.print("\nEnter your choice: ");
             choice = checkNextInt(1, 2);
         }
 
@@ -185,7 +186,7 @@ public class ConsoleView implements GameView {
         Direction dir = null;
 
         while (dir == null) {
-            System.out.print("Choose direction [N]orth, [S]outh, [E]ast, [W]est: ");
+            System.out.print("\nChoose direction [N]orth, [S]outh, [E]ast, [W]est: ");
             String input = getNextToken().toUpperCase();
 
             if (input.isEmpty()) {
@@ -210,7 +211,7 @@ public class ConsoleView implements GameView {
         while (choice < 1 || choice > 2) {
             System.out.println("1. Fight the villain");
             System.out.println("2. Run away");
-            System.out.print("Enter your choice: ");
+            System.out.print("\nEnter your choice: ");
             choice = checkNextInt(1, 2);
         }
 
@@ -273,7 +274,7 @@ public class ConsoleView implements GameView {
 
     @Override
     public void showMessage(String message) {
-        System.out.println(message);
+        printInfoBox(message);
     }
 
     private void printTitle(String message) {

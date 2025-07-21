@@ -13,7 +13,6 @@ import java.awt.*;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
 
 public class GuiView implements GameView {
     private GameController controller;
@@ -192,7 +191,7 @@ public class GuiView implements GameView {
         this.gameMap = gameMap;
         Position heroPosition = gameMap.getHeroPosition();
         int mapSize = gameMap.getSize();
-        this.mapPanel = new GameMapPanel(this, mapSize, heroPosition.getX(), heroPosition.getY());
+        this.mapPanel = new GameMapPanel(this, hero, mapSize, heroPosition.getX(), heroPosition.getY());
         // frame.add(mapPanel, BorderLayout.CENTER);
         AppStyle.switchPanel(frame, mapPanel);
         askDirection(heroPosition);
@@ -230,7 +229,7 @@ public class GuiView implements GameView {
 
     @Override
     public void notifyAboutArtifactDropped(Artifact artifactDropped) {
-        int choice = mapPanel.askForArtifactChoice();
+        int choice = mapPanel.askForArtifactChoice(artifactDropped);
         
         if (choice == 0) {
             controller.keepNewArtifact(artifactDropped);

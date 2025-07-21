@@ -6,7 +6,6 @@ import ro.academyplus.swingy.view.gui.GuiView;
 import ro.academyplus.swingy.controller.GameController;
 import ro.academyplus.swingy.utils.DatabaseManager;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 
 public class Main {
