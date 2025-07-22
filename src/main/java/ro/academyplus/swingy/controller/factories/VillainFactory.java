@@ -11,14 +11,14 @@ public class VillainFactory {
     public static Villain createRandomVillain(int heroLevel) {
         VillainClass type = randomVillainClass();
         int level = generateLevelNearHero(heroLevel);
-        int power = 1 + random.nextInt(5);
+        // int power = 1 + random.nextInt(5);
 
         // Stats can be generated based on level, type, etc.
-        int attack = level * 3 + random.nextInt(5);
-        int defense = level * 2 + random.nextInt(4);
-        int hp = 20 + level * 5 + random.nextInt(10);
+        int attack = type.getBaseAttack() + level + random.nextInt(3);
+        int defense = type.getBaseDefense() + level + random.nextInt(3);
+        int hp = type.getBaseHp() + level * 4 + random.nextInt(6);
 
-        return new Villain(type, level, power, attack, defense, hp);
+        return new Villain(type, level, attack, defense, hp);
     }
 
     private static VillainClass randomVillainClass() {

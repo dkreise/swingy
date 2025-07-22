@@ -1,8 +1,9 @@
 package ro.academyplus.swingy.view.console;
 
-import ro.academyplus.swingy.controller.GameController;
+import ro.academyplus.swingy.controller.*;
 import ro.academyplus.swingy.model.hero.*;
 import ro.academyplus.swingy.model.artifact.*;
+import ro.academyplus.swingy.model.villain.*;
 import ro.academyplus.swingy.model.map.*;
 import ro.academyplus.swingy.view.GameView;
 
@@ -129,12 +130,18 @@ public class ConsoleView implements GameView {
         // System.out.println("Size of the map: " + mapSize + "x" + mapSize);
         System.out.println("Your position: " + heroPosition);
         if (hasVillain) {
-            // System.out.println("You encountered a villain at this position!");
-            // System.out.println("Try you luck!");
+            Villain villain = gameMap.getVillainAt(heroPosition);
+            int dangerLevel = BattleManager.estimatedDangerLevel(hero, villain);
+            String dangerStars = "★★★".substring(0, dangerLevel) + "☆☆☆".substring(dangerLevel);
             printInfoBox(
                 "You encountered a villain at this position!",
+                "Type: " + villain.getName(),
+                "Level: " + villain.getLevel(),
+                "Danger Level: " + dangerStars,
                 "Try your luck!"
             );
+            
+            // printVillainInfo(villain);
             int choice = askForBattleChoice();
             if (choice == 1) {
                 System.out.println("You chose to fight the villain! How brave! Let's start the battle...");
@@ -270,6 +277,29 @@ public class ConsoleView implements GameView {
         } else {
             System.out.println("Helm: None");
         }
+    }
+
+    private void printVillainInfo(Villain villain) {
+        int dangerLevel = BattleManager.estimatedDangerLevel(hero, villain);
+        // String estimatedHpBar = getHpBar(hpRatio);
+        String dangerStars = "★★★".substring(0, dangerLevel) + "☆☆☆".substring(dangerLevel);
+
+        List<String> lines = List.of(
+            "Type: " + villain.getName(),
+            "Level: " + villain.getLevel(),
+            // "Estimated HP: " + estimatedHpBar,
+            "Danger Level: " + dangerStars
+        );
+
+        int boxWidth = lines.stream().mapToInt(String::length).max().orElse(0);
+        String border = "+" + "-".repeat(boxWidth + 2) + "+";
+
+        System.out.println("VILLAIN STATS");
+        System.out.println(border);
+        for (String line : lines) {
+            System.out.printf("| %-"+ boxWidth +"s |\n", line);
+        }
+        System.out.println(border);
     }
 
     @Override

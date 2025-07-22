@@ -88,8 +88,8 @@ public class GameMap {
         for (Map.Entry<Position, Villain> entry : villains.entrySet()) {
             Position pos = entry.getKey();
             Villain villain = entry.getValue();
-            System.out.printf("Position: %s, Villain: %s (Level: %d, Power: %d)\n",
-                    pos, villain.getName(), villain.getLevel(), villain.getPower());
+            System.out.printf("Position: %s, Villain: %s (Level: %d)\n",
+                    pos, villain.getName(), villain.getLevel());
         }
     }
 }
