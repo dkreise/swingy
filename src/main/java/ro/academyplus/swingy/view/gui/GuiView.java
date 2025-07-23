@@ -21,6 +21,7 @@ public class GuiView implements GameView {
     private GameMap gameMap;
     private JFrame frame;
     private GameMapPanel mapPanel;
+    private StatsPanel statsPanel;
 
     public GuiView() {
         SwingUtilities.invokeLater(this::createAndShowGUI);
@@ -193,13 +194,15 @@ public class GuiView implements GameView {
         Position heroPosition = gameMap.getHeroPosition();
         int mapSize = gameMap.getSize();
         this.mapPanel = new GameMapPanel(this, hero, mapSize, heroPosition.getX(), heroPosition.getY());
-        // frame.add(mapPanel, BorderLayout.CENTER);
-        AppStyle.switchPanel(frame, mapPanel);
+        this.statsPanel = new StatsPanel();
+        AppStyle.switchPanel(frame, mapPanel, statsPanel);
+        statsPanel.updateStats(hero);
         askDirection(heroPosition);
     }
 
     @Override
     public void askDirection(Position heroPosition) {
+        statsPanel.updateStats(hero);
         mapPanel.setMovementEnabled(true);
     }
 
@@ -209,6 +212,7 @@ public class GuiView implements GameView {
 
     @Override
     public void updateHeroPosition(Position heroPosition, Position oldPosition, boolean hasVillain) {
+        statsPanel.updateStats(hero);
         mapPanel.setMovementEnabled(false);
         mapPanel.updateHeroPosition(heroPosition.getX(), heroPosition.getY());
         if (hasVillain) {

@@ -23,6 +23,14 @@ public class AppStyle {
         frame.repaint();
     }
 
+    public static void switchPanel(JFrame frame, JPanel panel1, JPanel panel2) {
+        frame.getContentPane().removeAll();
+        frame.getContentPane().add(panel1,BorderLayout.CENTER);
+        frame.getContentPane().add(panel2, BorderLayout.EAST);
+        frame.revalidate();
+        frame.repaint();
+    }
+
     // 🧩 Reusable button style
     public static void stylePrimaryButton(JButton button) {
         button.setFont(BUTTON_FONT);

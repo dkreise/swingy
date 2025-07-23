@@ -33,6 +33,8 @@ public class GameMapPanel extends JPanel {
         setFocusable(true);
         requestFocusInWindow();
 
+        stats();
+
         setupKeyBindings();
     }
 
@@ -148,6 +150,24 @@ public class GameMapPanel extends JPanel {
             title,
             JOptionPane.INFORMATION_MESSAGE
         );
+    }
+
+    public void stats() {
+        JPanel statsPanel = new JPanel();
+        statsPanel.setLayout(new BoxLayout(statsPanel, BoxLayout.Y_AXIS));
+        statsPanel.setBackground(new Color(255, 255, 255, 200)); // semi-transparent
+        statsPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        statsPanel.setPreferredSize(new Dimension(150, 120));
+
+        statsPanel.add(new JLabel("Name: " + hero.getName()));
+        statsPanel.add(new JLabel("Level: " + hero.getLevel()));
+        statsPanel.add(new JLabel("XP: " + hero.getExperience()));
+        statsPanel.add(new JLabel("HP: " + hero.getTotalHitPoints()));
+        // statsPanel.add(new JLabel("Weapon: " + (hero.getWeapon() != null ? hero.getWeapon().getName() : "None")));
+
+        this.setLayout(null);
+        this.add(statsPanel);
+        statsPanel.setBounds(getWidth() - 160, 10, 150, 120);
     }
 
     @Override
