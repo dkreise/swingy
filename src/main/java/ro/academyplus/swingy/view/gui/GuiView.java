@@ -1,10 +1,11 @@
 package ro.academyplus.swingy.view.gui;
 
-import ro.academyplus.swingy.controller.GameController;
+import ro.academyplus.swingy.controller.*;
 import ro.academyplus.swingy.utils.AppStyle;
 import ro.academyplus.swingy.view.GameView;
 import ro.academyplus.swingy.view.gui.panels.*;
 import ro.academyplus.swingy.model.hero.*;
+import ro.academyplus.swingy.model.villain.*;
 import ro.academyplus.swingy.model.map.*;
 import ro.academyplus.swingy.model.artifact.*;
 
@@ -211,9 +212,9 @@ public class GuiView implements GameView {
         mapPanel.setMovementEnabled(false);
         mapPanel.updateHeroPosition(heroPosition.getX(), heroPosition.getY());
         if (hasVillain) {
-            // System.out.println("You encountered a villain at this position!");
-            // System.out.println("Try you luck!");
-            int choice = mapPanel.askForBattleChoice();
+            Villain villain = gameMap.getVillainAt(heroPosition);
+            int dangerLevel = BattleManager.estimatedDangerLevel(hero, villain);
+            int choice = mapPanel.askForBattleChoice(villain, dangerLevel);
             System.out.println("CHOICE: " + choice);
             if (choice != 1) {
                 showMessage("You chose to fight the villain! How brave! Let's start the battle...");

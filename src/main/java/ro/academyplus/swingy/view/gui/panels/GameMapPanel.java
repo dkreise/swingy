@@ -1,6 +1,7 @@
 package ro.academyplus.swingy.view.gui.panels;
 
 import ro.academyplus.swingy.model.hero.Hero;
+import ro.academyplus.swingy.model.villain.*;
 import ro.academyplus.swingy.model.artifact.Artifact;
 import ro.academyplus.swingy.model.artifact.ArtifactType;
 import ro.academyplus.swingy.model.map.*;
@@ -84,10 +85,18 @@ public class GameMapPanel extends JPanel {
         this.movementEnabled = enabled;
     }
 
-    public int askForBattleChoice() {
+    public int askForBattleChoice(Villain villain, int dangerLevel) {
+        String dangerStars = "★★★".substring(0, dangerLevel) + "☆☆☆".substring(dangerLevel);
+        String message = String.format(
+            "You encountered a villain at this position!\n\n%s\n%s\n%s\n\nWhat do you want to do?",
+            "Type: " + villain.getName(),
+            "Level: " + villain.getLevel(),
+            "Danger level: " + dangerStars
+        );
+
         int choice = JOptionPane.showOptionDialog(
             this,
-            "You encountered a villain at this position! What do you want to do?",
+            message,
             "Villain!",
             JOptionPane.DEFAULT_OPTION,
             JOptionPane.QUESTION_MESSAGE,

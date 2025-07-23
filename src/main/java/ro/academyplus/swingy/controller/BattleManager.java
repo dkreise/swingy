@@ -58,7 +58,7 @@ public class BattleManager {
         Artifact artifact = heroWon ? maybeDropArtifact(villain) : null;
 
         // Optional: Log to console
-        System.out.println(battleLog);
+        // System.out.println(battleLog);
 
         return new BattleResult(heroWon, xp, artifact);
     }
