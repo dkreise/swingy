@@ -248,5 +248,9 @@ public class GuiView implements GameView {
 
     public void setController(GameController controller) {
         this.controller = controller;
-    }    
+    } 
+
+    public GameMap getGameMap() {
+        return gameMap;
+    }
 }

@@ -139,6 +139,7 @@ public class GameController {
         if (result.isHeroWon()) {
             gameView.showMessage("You defeated the villain: " + villain.getName() + "!");
             gameMap.removeVillainAt(gameMap.getHeroPosition()); 
+            gameMap.markVillainDefeated(gameMap.getHeroPosition());
 
             updateXpAndLevel(result);
 

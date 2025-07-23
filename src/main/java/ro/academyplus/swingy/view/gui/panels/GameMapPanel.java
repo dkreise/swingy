@@ -26,6 +26,7 @@ public class GameMapPanel extends JPanel {
         this.mapSize = mapSize;
         this.heroX = startX;
         this.heroY = startY;
+        // private Set<Position> defeatedTiles = new HashSet<>();
 
         setPreferredSize(new Dimension(mapSize * tileSize, mapSize * tileSize));
         setBackground(Color.WHITE);
@@ -82,6 +83,11 @@ public class GameMapPanel extends JPanel {
         this.heroY = y;
         repaint();
     }
+
+    // public void markVillainDefeated(int x, int y) {
+    //     defeatedTiles.add(new Position(x, y));
+    //     repaint();
+    // }
 
     public void setMovementEnabled(boolean enabled) {
         this.movementEnabled = enabled;
@@ -179,6 +185,12 @@ public class GameMapPanel extends JPanel {
         for (int i = 0; i <= mapSize; i++) {
             g.drawLine(i * tileSize, 0, i * tileSize, mapSize * tileSize); // vertical
             g.drawLine(0, i * tileSize, mapSize * tileSize, i * tileSize); // horizontal
+        }
+
+        // mark defeated tiles
+        g.setColor(new Color(255, 228, 225)); // light red
+        for (Position p : guiView.getGameMap().getDefeatedTiles()) {
+            g.fillRect(p.getX() * tileSize, p.getY() * tileSize, tileSize, tileSize);
         }
 
         // Draw hero

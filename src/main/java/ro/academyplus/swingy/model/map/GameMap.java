@@ -4,11 +4,14 @@ import ro.academyplus.swingy.model.villain.Villain;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Set;
+import java.util.HashSet;
 
 public class GameMap {
     private final int size;
     private Position heroPosition;
     private final Map<Position, Villain> villains = new HashMap<>();
+    private Set<Position> defeatedTiles = new HashSet<>();
 
     public GameMap(int heroLevel) {
         this.size = (heroLevel - 1) * 5 + 10 - (heroLevel % 2);
@@ -76,6 +79,14 @@ public class GameMap {
 
     public void removeVillainAt(Position position) {
         villains.remove(position);
+    }
+
+    public void markVillainDefeated(Position position) {
+        defeatedTiles.add(position);
+    }
+
+    public Set<Position> getDefeatedTiles() {
+        return defeatedTiles;
     }
 
     public boolean isCenter(Position position) {

@@ -15,7 +15,7 @@ public class StatsPanel extends JPanel {
     public StatsPanel() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        labelTitle = new JLabel("HERO STATS");
+        labelTitle = new JLabel(" HERO STATS");
         labelTitle.setFont(AppStyle.TITLE_FONT);
         labelTitle.setForeground(AppStyle.ACCENT_GREEN);
         
