@@ -40,7 +40,7 @@ public class GameMapPanel extends JPanel {
     }
 
     private void setupKeyBindings() {
-        InputMap inputMap = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        InputMap inputMap = getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         ActionMap actionMap = getActionMap();
 
         inputMap.put(KeyStroke.getKeyStroke("UP"), "moveUp");

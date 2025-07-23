@@ -194,9 +194,18 @@ public class GuiView implements GameView {
         Position heroPosition = gameMap.getHeroPosition();
         int mapSize = gameMap.getSize();
         this.mapPanel = new GameMapPanel(this, hero, mapSize, heroPosition.getX(), heroPosition.getY());
+        JScrollPane scrollPane = new JScrollPane(mapPanel);
+        scrollPane.setFocusable(false);
         this.statsPanel = new StatsPanel();
-        AppStyle.switchPanel(frame, mapPanel, statsPanel);
+        AppStyle.switchPanel(frame, scrollPane, statsPanel);
+
         statsPanel.updateStats(hero);
+        
+        SwingUtilities.invokeLater(() -> {
+            mapPanel.setFocusable(true);
+            mapPanel.requestFocusInWindow(); // THIS is what allows arrow keys to work
+        });
+        
         askDirection(heroPosition);
     }
 
