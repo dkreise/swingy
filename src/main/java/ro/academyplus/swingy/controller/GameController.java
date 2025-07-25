@@ -102,6 +102,8 @@ public class GameController {
         boolean victory = gameMap.heroIsAtEdge();
         if (victory) {
             gameView.showMessage("Congratulations! You've reached the edge of the game map and won the game!");
+            int xpGained = 50 * hero.getLevel();
+            updateXpAndLevel(xpGained);
             return;
         }
         // int mapSize = gameMap.getSize();
@@ -141,7 +143,7 @@ public class GameController {
             gameMap.removeVillainAt(gameMap.getHeroPosition()); 
             gameMap.markVillainDefeated(gameMap.getHeroPosition());
 
-            updateXpAndLevel(result);
+            updateXpAndLevel(result.getXpGained());
 
             Artifact artifactDropped = result.getArtifactDropped();
             if (artifactDropped != null) {
@@ -203,8 +205,8 @@ public class GameController {
         }
     }
 
-    public void updateXpAndLevel(BattleResult result) {
-        int xpGained = result.getXpGained();
+    public void updateXpAndLevel(int xpGained) {
+        // int xpGained = result.getXpGained();
         int curLevel = hero.getLevel();
 
         hero.addExperience(xpGained);
