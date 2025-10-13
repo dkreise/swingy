@@ -137,7 +137,32 @@ public class GameController {
             return;
         }
 
+        gameView.simulateBattle();
+
+        // BattleResult result = BattleManager.simulateBattle(hero, villain);
+        // if (result.isHeroWon()) {
+        //     gameView.showMessage("You defeated the villain: " + villain.getName() + "!");
+        //     gameMap.removeVillainAt(gameMap.getHeroPosition()); 
+        //     gameMap.markVillainDefeated(gameMap.getHeroPosition());
+
+        //     updateXpAndLevel(result.getXpGained());
+
+        //     Artifact artifactDropped = result.getArtifactDropped();
+        //     if (artifactDropped != null) {
+        //         gameView.notifyAboutArtifactDropped(artifactDropped);
+        //     }
+
+        //     startNewMove(); // Continue the game
+        // } else {
+        //     gameView.showMessage("You were defeated by the villain: " + villain.getName() + "!");
+        //     gameView.showMessage("GAME OVER! Your hero " + hero.getName() + " has fallen.");
+        // }
+    }
+
+    public void getBattleResult() {
+        Villain villain = gameMap.getVillainAt(gameMap.getHeroPosition());
         BattleResult result = BattleManager.simulateBattle(hero, villain);
+
         if (result.isHeroWon()) {
             gameView.showMessage("You defeated the villain: " + villain.getName() + "!");
             gameMap.removeVillainAt(gameMap.getHeroPosition()); 
@@ -150,7 +175,7 @@ public class GameController {
                 gameView.notifyAboutArtifactDropped(artifactDropped);
             }
 
-            startNewMove(); // Continue the game
+            startNewMove();
         } else {
             gameView.showMessage("You were defeated by the villain: " + villain.getName() + "!");
             gameView.showMessage("GAME OVER! Your hero " + hero.getName() + " has fallen.");

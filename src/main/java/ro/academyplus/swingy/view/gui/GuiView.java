@@ -242,6 +242,12 @@ public class GuiView implements GameView {
     }
 
     @Override
+    public void simulateBattle() {
+        showMessage("The battle is being simulated... Please wait.");
+        controller.getBattleResult();
+    }
+
+    @Override
     public void notifyAboutArtifactDropped(Artifact artifactDropped) {
         int choice = mapPanel.askForArtifactChoice(artifactDropped);
         

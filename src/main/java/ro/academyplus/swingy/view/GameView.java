@@ -6,7 +6,6 @@ import ro.academyplus.swingy.model.map.*;
 import ro.academyplus.swingy.model.artifact.*;
 
 import java.util.List;
-import java.util.ArrayList;
 
 public interface GameView {
     void setController(GameController controller);
@@ -19,6 +18,7 @@ public interface GameView {
     void startNewGame(Hero hero, GameMap gameMap);
     void askDirection(Position heroPosition);
     void updateHeroPosition(Position heroPosition, Position oldPosition, boolean hasVillain);
+    void simulateBattle();
     void notifyAboutArtifactDropped(Artifact artifactDropped);
     void showMessage(String message);
 }

@@ -130,18 +130,9 @@ public class ConsoleView implements GameView {
         // System.out.println("Size of the map: " + mapSize + "x" + mapSize);
         System.out.println("Your position: " + heroPosition);
         if (hasVillain) {
-            Villain villain = gameMap.getVillainAt(heroPosition);
-            int dangerLevel = BattleManager.estimatedDangerLevel(hero, villain);
-            String dangerStars = "★★★".substring(0, dangerLevel) + "☆☆☆".substring(dangerLevel);
-            printInfoBox(
-                "You encountered a villain at this position!",
-                "Type: " + villain.getName(),
-                "Level: " + villain.getLevel(),
-                "Danger Level: " + dangerStars,
-                "Try your luck!"
-            );
-            
-            // printVillainInfo(villain);
+            Villain villain = gameMap.getVillainAt(heroPosition);            
+            printVillainInfo(villain);
+
             int choice = askForBattleChoice();
             if (choice == 1) {
                 System.out.println("You chose to fight the villain! How brave! Let's start the battle...");
@@ -154,6 +145,17 @@ public class ConsoleView implements GameView {
             printInfoBox("No villains here, you can move freely.");
             controller.startNewMove();
         }
+    }
+
+    @Override
+    public void simulateBattle() {
+        printInfoBox("Battle in progress...");
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        controller.getBattleResult();
     }
 
     @Override
@@ -284,22 +286,31 @@ public class ConsoleView implements GameView {
         // String estimatedHpBar = getHpBar(hpRatio);
         String dangerStars = "★★★".substring(0, dangerLevel) + "☆☆☆".substring(dangerLevel);
 
-        List<String> lines = List.of(
+        // List<String> lines = List.of(
+        //     "Type: " + villain.getName(),
+        //     "Level: " + villain.getLevel(),
+        //     // "Estimated HP: " + estimatedHpBar,
+        //     "Danger Level: " + dangerStars
+        // );
+
+        // int boxWidth = lines.stream().mapToInt(String::length).max().orElse(0);
+        // String border = "+" + "-".repeat(boxWidth + 2) + "+";
+
+        // System.out.println("VILLAIN STATS");
+        // System.out.println(border);
+        // for (String line : lines) {
+        //     System.out.printf("| %-"+ boxWidth +"s |\n", line);
+        // }
+        // System.out.println(border);
+
+        printInfoBox(
+            "VILLAIN!",
+            "You encountered a villain at this position!",
             "Type: " + villain.getName(),
             "Level: " + villain.getLevel(),
-            // "Estimated HP: " + estimatedHpBar,
-            "Danger Level: " + dangerStars
+            "Danger Level: " + dangerStars,
+            "Try your luck!"
         );
-
-        int boxWidth = lines.stream().mapToInt(String::length).max().orElse(0);
-        String border = "+" + "-".repeat(boxWidth + 2) + "+";
-
-        System.out.println("VILLAIN STATS");
-        System.out.println(border);
-        for (String line : lines) {
-            System.out.printf("| %-"+ boxWidth +"s |\n", line);
-        }
-        System.out.println(border);
     }
 
     @Override
