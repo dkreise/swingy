@@ -243,8 +243,21 @@ public class GuiView implements GameView {
 
     @Override
     public void simulateBattle() {
-        showMessage("The battle is being simulated... Please wait.");
-        controller.getBattleResult();
+        JDialog dialog = new JDialog(frame, false); // modeless, frame is your main window
+        dialog.setUndecorated(true);
+        JLabel label = new JLabel("Battle in progress...", SwingConstants.CENTER);
+        label.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
+        dialog.add(label);
+        dialog.pack();
+        dialog.setLocationRelativeTo(frame);
+        dialog.setVisible(true);
+
+        new Timer(3000, e -> {
+            dialog.dispose(); // close temporary dialog
+            ((Timer) e.getSource()).stop();
+
+            controller.getBattleResult();
+        }).start();
     }
 
     @Override

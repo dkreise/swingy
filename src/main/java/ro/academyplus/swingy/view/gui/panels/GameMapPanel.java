@@ -158,6 +158,17 @@ public class GameMapPanel extends JPanel {
         );
     }
 
+    public void showTemporaryMessage(String message, int delayMs) {
+        JDialog dialog = new JDialog((Frame) null, false); // false → modeless
+        dialog.setUndecorated(true);
+        dialog.add(new JLabel(message, SwingConstants.CENTER));
+        dialog.pack();
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+
+        new Timer(delayMs, e -> dialog.dispose()).start();
+    }
+
     public void stats() {
         JPanel statsPanel = new JPanel();
         statsPanel.setLayout(new BoxLayout(statsPanel, BoxLayout.Y_AXIS));
