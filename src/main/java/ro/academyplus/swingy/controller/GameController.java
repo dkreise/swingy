@@ -9,10 +9,7 @@ import ro.academyplus.swingy.model.villain.Villain;
 import ro.academyplus.swingy.utils.ValidationUtils;
 import ro.academyplus.swingy.model.dao.*;
 
-import javax.swing.*;
-
 import java.sql.Connection;
-import java.util.Map;
 import java.util.Random;
 import java.util.List;
 

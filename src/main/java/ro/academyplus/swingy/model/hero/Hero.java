@@ -36,7 +36,6 @@ public class Hero {
         this.helm = null;
     }
 
-    // TODO: constructor for loading from file - existing heros
     public Hero(String name, HeroClass heroClass, int level, int experience, int attack, int defense, int hitPoints,
                 Weapon weapon, Armor armor, Helm helm) {
         this.name = name;

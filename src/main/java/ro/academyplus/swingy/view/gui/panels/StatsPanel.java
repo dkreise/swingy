@@ -3,11 +3,8 @@ package ro.academyplus.swingy.view.gui.panels;
 import ro.academyplus.swingy.model.hero.Hero;
 import ro.academyplus.swingy.model.artifact.*;
 import ro.academyplus.swingy.utils.AppStyle;
-import ro.academyplus.swingy.view.gui.GuiView;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
 
 public class StatsPanel extends JPanel {
     private JLabel labelTitle, nameLabel, levelLabel, xpLabel, weaponLabel, armorLabel, helmLabel;
