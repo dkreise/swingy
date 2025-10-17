@@ -123,9 +123,36 @@ public class GuiView implements GameView {
         inputPanel.add(new JLabel("Hero Name:"));
         inputPanel.add(nameField);
 
-        // Create button
+        // Create button with input validation
         JButton createButton = new JButton("Create Hero");
-        createButton.addActionListener(e -> controller.handleHeroCreation(nameField, classButtons));
+        createButton.addActionListener(e -> {
+            String heroName = nameField.getText().trim();
+            if (heroName.isEmpty()) {
+                JOptionPane.showMessageDialog(frame, "Hero name cannot be empty.", "Validation error", JOptionPane.WARNING_MESSAGE);
+                nameField.requestFocusInWindow();
+                return;
+            }
+
+            // Check if a class was selected
+            HeroClass selectedClass = null;
+            for (Map.Entry<JRadioButton, HeroClass> entry : classButtons.entrySet()) {
+                if (entry.getKey().isSelected()) {
+                    selectedClass = entry.getValue();
+                    break;
+                }
+            }
+            if (selectedClass == null) {
+                JOptionPane.showMessageDialog(frame, "Please select a Hero class.", "Validation error", JOptionPane.WARNING_MESSAGE);
+                // set focus to first radio button if present
+                if (!classButtons.isEmpty()) {
+                    classButtons.keySet().iterator().next().requestFocusInWindow();
+                }
+                return;
+            }
+
+            Hero hero = new Hero(heroName, selectedClass);
+            controller.setHero(hero, true);
+        });
 
         // Put everything together
         JPanel southPanel = new JPanel(new BorderLayout());

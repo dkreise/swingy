@@ -54,21 +54,6 @@ public class GameController {
         gameView.showHeroCreationMenu();
     }
 
-    public void handleHeroCreation(JTextField nameField, Map<JRadioButton, HeroClass> classButtons) {
-        String name = nameField.getText().trim();
-        HeroClass selectedClass = null;
-
-        for (Map.Entry<JRadioButton, HeroClass> entry : classButtons.entrySet()) {
-            if (entry.getKey().isSelected()) {
-                selectedClass = entry.getValue();
-                break;
-            }
-        }
-
-        Hero hero = new Hero(name, selectedClass);
-        this.setHero(hero, true);
-    }
-
     public void setHero(Hero hero, boolean created) {
         if (ValidationUtils.validate(hero)) {
             this.hero = hero;
