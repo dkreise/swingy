@@ -101,9 +101,10 @@ public class GameController {
         Position heroPosition = gameMap.getHeroPosition();
         boolean victory = gameMap.heroIsAtEdge();
         if (victory) {
-            gameView.showMessage("Congratulations! You've reached the edge of the game map and won the game!");
+            // gameView.showMessage("Congratulations! You've reached the edge of the game map and won the game!");
             int xpGained = 50 * hero.getLevel();
             updateXpAndLevel(xpGained);
+            gameView.showEndGame("Congratulations! You've reached the edge of the game map and won the game!");
             return;
         }
         // int mapSize = gameMap.getSize();
@@ -178,7 +179,8 @@ public class GameController {
             startNewMove();
         } else {
             gameView.showMessage("You were defeated by the villain: " + villain.getName() + "!");
-            gameView.showMessage("GAME OVER! Your hero " + hero.getName() + " has fallen.");
+            // gameView.showMessage("GAME OVER! Your hero " + hero.getName() + " has fallen.");
+            gameView.showEndGame("GAME OVER! Your hero " + hero.getName() + " has fallen.");
         }
     }
 
@@ -305,5 +307,15 @@ public class GameController {
         } catch (Exception e) {
             System.out.println("Error deleting artifact: " + e.getMessage());
         }
+    }
+
+    /**
+     * Reset controller state to be ready for starting a brand new game.
+     * This does not delete heroes from the database; it simply clears
+     * in-memory game state so the view can navigate to the main menu.
+     */
+    public void resetGame() {
+        this.hero = null;
+        this.gameMap = null;
     }
 }

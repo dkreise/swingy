@@ -21,4 +21,7 @@ public interface GameView {
     void simulateBattle();
     void notifyAboutArtifactDropped(Artifact artifactDropped);
     void showMessage(String message);
+    // Called when the game ends (victory or defeat). Implementations should present
+    // an end-game UI and allow restarting or exiting.
+    void showEndGame(String message);
 }

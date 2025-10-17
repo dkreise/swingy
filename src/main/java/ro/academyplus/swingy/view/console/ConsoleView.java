@@ -227,6 +227,42 @@ public class ConsoleView implements GameView {
         return choice;
     }
 
+    @Override
+    public void showEndGame(String message) {
+        printTitle("GAME OVER");
+        System.out.println(message);
+        if (controller != null) {
+            controller.resetGame();
+        }
+        // System.out.println("\nReturning to main menu...");
+        // showMainMenu();
+        showStartNewGameMenu();
+    }
+
+    private void showStartNewGameMenu() {
+        int choice = 0;
+
+        while (choice < 1 || choice > 3) {
+            // printTitle("MAIN MENU");
+            System.out.println("\n1. Start New Game");
+            System.out.println("2. Exit");
+            System.out.print("\nEnter your choice: ");
+
+            choice = checkNextInt(1, 2);
+        }
+
+        switch (choice) {
+            case 1:
+                showMainMenu();
+                break;
+            case 2:
+                scanner.close();
+                System.out.println("Exiting the game. Goodbye!");
+                System.exit(0);
+                break;
+        }
+    }
+
     public String getNextToken() {
         String line = scanner.nextLine().trim();
         if (!line.isEmpty()) {

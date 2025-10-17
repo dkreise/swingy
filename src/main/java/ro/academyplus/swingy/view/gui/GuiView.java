@@ -271,7 +271,55 @@ public class GuiView implements GameView {
 
     @Override
     public void showMessage(String message) {
-        mapPanel.showMessageDialog(message, "!!!");
+        // If the message indicates the game ended (victory or game over), show a panel with
+        // a "Start New Game" button that returns the player to the main menu.
+        String msgLower = message == null ? "" : message.toLowerCase();
+        if (msgLower.contains("game over") || msgLower.contains("won the game") || msgLower.contains("you won")) {
+            // delegate to explicit end-game handler
+            // showEndGame(message);
+        } else {
+            if (mapPanel != null) {
+                mapPanel.showMessageDialog(message, "!!!");
+            } else {
+                // fallback to a basic dialog if mapPanel isn't available yet
+                JOptionPane.showMessageDialog(frame, message);
+            }
+        }
+    }
+
+    @Override
+    public void showEndGame(String message) {
+        SwingUtilities.invokeLater(() -> {
+            JPanel panel = new JPanel();
+            panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+            panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+            JLabel lbl = new JLabel("<html><div style='text-align:center;'>" + message + "</div></html>", SwingConstants.CENTER);
+            lbl.setAlignmentX(Component.CENTER_ALIGNMENT);
+            panel.add(lbl);
+            panel.add(Box.createVerticalStrut(15));
+
+            JButton startButton = new JButton("Start New Game");
+            AppStyle.stylePrimaryButton(startButton);
+            startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+            startButton.addActionListener(e -> {
+                // Reset controller state and go back to main menu
+                if (controller != null) {
+                    controller.resetGame();
+                }
+                showMainMenu();
+            });
+            panel.add(startButton);
+
+            // Optional exit button for convenience
+            JButton exitButton = new JButton("Exit");
+            exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+            exitButton.addActionListener(e -> frame.dispose());
+            panel.add(Box.createVerticalStrut(10));
+            panel.add(exitButton);
+
+            AppStyle.switchPanel(frame, panel);
+        });
     }
 
     public void setController(GameController controller) {
